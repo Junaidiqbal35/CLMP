@@ -1,0 +1,37 @@
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+  {% if object %}
+    Edit course "{{ object.title }}"
+  {% else %}
+    Create a new course
+  {% endif %}
+{% endblock %}
+{% block content %}
+  <div class="container">
+
+      <h1>
+        {% if object %}
+          Edit course "{{ object.title }}"
+        {% else %}
+          Create a new course
+        {% endif %}
+      </h1>
+      <div class="module">
+        <h2>Course info</h2>
+        <form method="post">
+          {{ form|crispy }}
+
+
+            {% for formset in formset %}
+                <h2> Module {{ forloop.counter }} </h2>
+                {{ formset|crispy }}
+                 {{ formset.management_form }}
+            {% endfor %}
+          {% csrf_token %}
+          <p><input type="submit" value="Save course"></p>
+        </form>
+      </div>
+  </div>
+{% endblock %}

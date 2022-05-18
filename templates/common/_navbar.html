@@ -1,0 +1,42 @@
+{% load static %}
+
+<header class="main-header">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg main-nav px-0">
+            <a class="navbar-brand" href="/mojo">
+                <img src="{% static 'images/logo.png' %}" alt="Courses">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu"
+                aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="icon-bar icon-bar-1"></span>
+                <span class="icon-bar icon-bar-2"></span>
+                <span class="icon-bar icon-bar-3"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainMenu">
+                <ul class="navbar-nav ml-auto text-uppercase f1">
+                    <li>
+                        <a href="{% url 'courses' %}" class="active active-first">home</a>
+                    </li>
+
+                    <li>
+                        <a href={% url 'plans' %}>Plans</a>
+                    </li>
+                    <li>
+                        <a href="#project">projects</a>
+                    </li>
+                    <li>
+                        <a href="#team">team</a>
+                    </li>
+                    <li>
+                        <a href="#testimony">testimonils</a>
+                    </li>
+                    <li>
+                        <a href="#contact">contact</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+</header>
+<br>

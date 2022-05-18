@@ -1,0 +1,12 @@
+# {% extends 'base.html' %}
+# {% block extrahead %}
+# {% endblock extrahead %}
+#
+# {% block title %}
+#
+#     <title>Courses Portfolio</title>
+# {% endblock title %}
+#
+# {% block content %}
+#
+# {% endblock content %}
