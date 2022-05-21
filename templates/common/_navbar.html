@@ -1,42 +1,30 @@
 {% load static %}
+<nav class="navbar navbar-expand-lg navbar-light" style="background: #fff;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'courses' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'plans' %}">Plan</a>
+        </li>
 
-<header class="main-header">
-    <div class="container">
-        <nav class="navbar navbar-expand-lg main-nav px-0">
-            <a class="navbar-brand" href="/mojo">
-                <img src="{% static 'images/logo.png' %}" alt="Courses">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu"
-                aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="icon-bar icon-bar-1"></span>
-                <span class="icon-bar icon-bar-2"></span>
-                <span class="icon-bar icon-bar-3"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mainMenu">
-                <ul class="navbar-nav ml-auto text-uppercase f1">
-                    <li>
-                        <a href="{% url 'courses' %}" class="active active-first">home</a>
-                    </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'teacher-registration' %}">Become A Teacher</a>
+        </li>
+         <li class="nav-item">
+          <a class="nav-link" href="{% url 'student-registration' %}"> Student Sign Up</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'account_login' %}">Sign in</a>
+        </li>
 
-                    <li>
-                        <a href={% url 'plans' %}>Plans</a>
-                    </li>
-                    <li>
-                        <a href="#project">projects</a>
-                    </li>
-                    <li>
-                        <a href="#team">team</a>
-                    </li>
-                    <li>
-                        <a href="#testimony">testimonils</a>
-                    </li>
-                    <li>
-                        <a href="#contact">contact</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+      </ul>
     </div>
-
-</header>
-<br>
+  </div>
+</nav>

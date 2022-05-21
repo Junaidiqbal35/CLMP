@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+{% block extrahead %}
+{% endblock extrahead %}
+
+{% block title %}
+{% endblock title %}
+{% block content %}
+
+<div id="sidebar">
+            <header>
+                <a href="#">Courses Portfolio</a>
+            </header>
+            <ul class="nav">
+                <li>
+                    <a href="#">
+                        <i class="zmdi zmdi-view-dashboard"></i> My Progress
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="zmdi zmdi-link"></i> My Bookmarks
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="zmdi zmdi-widgets"></i> Assessments
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="zmdi zmdi-calendar"></i> Courses
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="zmdi zmdi-info-outline"></i> Practice
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="zmdi zmdi-settings"></i> Projects
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="zmdi zmdi-comment-more"></i> Live Events
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+{% endblock content %}

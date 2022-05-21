@@ -2,7 +2,10 @@ from allauth.account.views import SignupView
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from django.views.generic import DetailView
+
 from accounts.forms import CreateUserForm, StudentForm, TeacherForm
+from accounts.models import User
 
 
 class StudentAddView(SignupView):
@@ -68,3 +71,10 @@ class TeacherAddView(SignupView):
         return render(request, self.template_name, {'form': form, 'work_form': work_form})
 
 
+class Profile(DetailView):
+    template_name = "account/../templates/base_student_dashboard.html"
+    queryset = User.objects.all()
+    context_object_name = 'user'
+
+    def get_object(self):
+        return self.request.user

@@ -28,8 +28,6 @@ class Membership(models.Model):
         default='Free',
         max_length=30)
     price = models.IntegerField(default=0.0)
-    # 10800
-    storage_size = models.IntegerField(default=10800)
 
     stripe_plan_id = models.CharField(max_length=40, null=True, blank=True)
 
@@ -46,7 +44,7 @@ class UserMembership(models.Model):
     subscription_badge = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.username
+        return self.user.first_name
 
     @property
     def get_customer_id(self):
@@ -61,7 +59,6 @@ def post_save_user_membership_create(sender, instance, created, *args, **kwargs)
             if created:
                 free_membership = get_object_or_404(Membership, membership_type='Free')
                 user_membership.membership = free_membership
-                user_membership.volume_remaining = free_membership.storage_size
 
                 # create stripe customer
                 stripe_customer = stripe.Customer.create(

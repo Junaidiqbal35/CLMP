@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
 {% block extrahead %}
 <style>
  body {
@@ -237,7 +240,7 @@
         color: #555;
     }
 
-    .wrapper .form-field input {
+    input[type='text'] {
         width: 100%;
         display: block;
         border: none;
@@ -249,7 +252,7 @@
         /* border: 1px solid red; */
     }
 
-    .wrapper .form-field {
+    input{
         padding-left: 10px;
         margin-bottom: 20px;
         border-radius: 20px;
@@ -261,14 +264,14 @@
     }
 
     .wrapper .btn {
-        box-shadow: none;
+
         width: 100%;
         height: 40px;
         background-color: #550077;
         color: #fff;
         border-radius: 25px;
-        box-shadow: 3px 3px 3px #b1b1b1,
-            -3px -3px 3px #fff;
+        box-shadow: 3px 3px 3px #b1b1b1;
+
         letter-spacing: 1.3px;
     }
     .btn{
@@ -278,8 +281,7 @@
         background-color: #550077;
         color: #fff;
         border-radius: 25px;
-        box-shadow: 3px 3px 3px #b1b1b1,
-            -3px -3px 3px #fff;
+        box-shadow: 3px 3px 3px #b1b1b1;
         letter-spacing: 1.3px;
     }
     .btn:hover {
@@ -318,39 +320,60 @@
     <div class="container-fluid mt-5 ">
 
         <div class="row mt-5">
-            <div class="col-6 center">
+            <div class="col-md-6 center">
                <h1>Build Data Skills Online </h1>
                <h3 class="mt-5">Data Drives Everything. Get the skills</h3>
                <h3>for future for work.</h3>
                <button class="btn mt-5">Start Learning for free</button>
                <button class="btn mt-3 buy">Buy Subscriptions for more!</button>
             </div>
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="wrapper">
                     <div class="text-center mt-4 name">
                         Create Your Free Account
                     </div>
-                    <form class="p-3 mt-3">
-                        <div class="form-field d-flex align-items-center">
-                            <span class="far fa-user"></span>
-                            <input type="text" name="userName" id="userName" placeholder="Firstname">
-                        </div>
-                        <div class="form-field d-flex align-items-center">
-                            <span class="far fa-user"></span>
-                            <input type="text" name="userName" id="userName" placeholder="Lastname">
-                        </div>
-                        <div class="form-field d-flex align-items-center">
-                            <span class="far fa-user"></span>
-                            <input type="email" name="userName" id="userName" placeholder="Enter your email">
-                        </div>
-                        <div class="form-field d-flex align-items-center">
-                            <span class="fas fa-key"></span>
-                            <input type="password" name="password" id="pwd" placeholder="Password">
-                        </div>
-                        <button class="btn mt-3">Signup</button>
+                    <form class="p-3 mt-3" method="POST" action="{% url 'teacher-registration' %}">
+                         {{form|crispy}}
+                         {{work_form|crispy}}
+                        {% csrf_token %}
+
+{#                        <div class="form-field d-flex align-items-center">#}
+{#                            <span class="fa fa-user"></span>#}
+{#                            <input type="text" name="userName" id="userName" placeholder="Firstname">#}
+{#                             {% crispy_field form.first_name 'class' 'custom-control-input' 'placeholder' 'First Name' %}#}
+{#                        </div>#}
+{#                        <div class="form-field d-flex align-items-center">#}
+{#                            <span class="fa fa-user"></span>#}
+{#                            <input type="text" name="userName" id="userName" placeholder="Lastname">#}
+{#                             {% crispy_field form.last_name 'class' 'custom-control-input' 'placeholder' 'Last Name' %}#}
+{#                        </div>#}
+{#                        <div class="form-field d-flex align-items-center">#}
+{#                            <span class="far fa-user"></span>#}
+{#                            <input type="email" name="userName" id="userName" placeholder="Enter your email">#}
+{#                             {% crispy_field form.email 'class' 'custom-control-input' 'placeholder' 'Email' %}#}
+{#                        </div>#}
+{#                        <div class="form-field d-flex align-items-center">#}
+{#                            <span class="fas fa-key"></span>#}
+{#                             {% crispy_field form.password 'class' 'custom-control-input' 'placeholder' 'Password'%}#}
+{#                            <input type="password" name="password" id="pwd" placeholder="Password">#}
+{#                        </div>#}
+{##}
+{#                        <div class="form-field d-flex align-items-center">#}
+{#                            <span class="fas fa-key"></span>#}
+{#                             {% crispy_field work_form.city 'class' 'custom-control-input' 'placeholder' 'City' %}#}
+{##}
+{#                        </div>#}
+{##}
+{#                      <div class="form-field d-flex align-items-center">#}
+{#                            <span class="fas fa-key"></span>#}
+{#                             {% crispy_field work_form.qualification 'class' 'custom-control-input' 'placeholder' 'Qualification' %}#}
+{##}
+{#                        </div>#}
+
+                        <button type="submit" class="btn mt-3">Signup</button>
                     </form>
                     <div class="text-center fs-6">
-                        <a href="#">Forget password?</a> or <a href="#">Log in</a>
+                        <a href="{% url 'account_reset_password' %}">Forget password?</a> or <a href="#">Log in</a>
                     </div>
                 </div>
             </div>

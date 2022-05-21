@@ -1,6 +1,5 @@
-
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-
 
 # Create your models here.
 from django.db import models
@@ -37,6 +36,9 @@ class Course(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     overview = models.TextField()
     subscription_package = models.PositiveIntegerField(choices=COURSE_SUBSCRIPTION_TYPE, default=1)
+    students = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                      related_name='courses_joined',
+                                      blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -66,10 +68,16 @@ class Content(models.Model):
                                related_name='contents',
                                on_delete=models.CASCADE)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
-                              related_name='%(class)s_related',
+                              related_name='content_owner',
                               on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
     video = models.FileField(upload_to='courses/video/')
+
+    # content_type = models.ForeignKey(ContentType,
+    #                                  on_delete=models.CASCADE)
+    # object_id = models.PositiveIntegerField()
+    # item = GenericForeignKey('content_type', 'object_id')
+
     order = OrderField(blank=True, for_fields=['module'])
 
     created = models.DateTimeField(auto_now_add=True)
@@ -77,3 +85,34 @@ class Content(models.Model):
 
     class Meta:
         ordering = ['order']
+
+
+# class ItemBase(models.Model):
+#     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
+#                               related_name='%(class)s_related',
+#                               on_delete=models.CASCADE)
+#     title = models.CharField(max_length=250)
+#     created = models.DateTimeField(auto_now_add=True)
+#     updated = models.DateTimeField(auto_now=True)
+#
+#     class Meta:
+#         abstract = True
+#
+#     def __str__(self):
+#         return self.title
+#
+#
+# class Text(ItemBase):
+#     content = models.TextField()
+#
+#
+# class File(ItemBase):
+#     file = models.FileField(upload_to='files')
+#
+#
+# class Image(ItemBase):
+#     file = models.FileField(upload_to='images')
+#
+#
+# class Video(ItemBase):
+#     url = models.URLField()

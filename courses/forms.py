@@ -12,12 +12,17 @@ class CourseForm(forms.ModelForm):
 class ContentForm(forms.ModelForm):
     class Meta:
         model = Content
-        fields = ['module', 'title', 'video']
+        fields = ['module', 'title']
 
 
 ModuleFormSet = inlineformset_factory(Course,
                                       Module,
                                       fields=['title',
                                               'description'],
-                                      extra=2,
+                                      extra=6,
                                       can_delete=True)
+
+
+class CourseEnrollForm(forms.Form):
+    course = forms.ModelChoiceField(queryset=Course.objects.all(),
+                                    widget=forms.HiddenInput)
