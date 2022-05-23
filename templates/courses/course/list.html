@@ -104,6 +104,8 @@ body {
 
 {% endblock extrahead %}
 {% block content %}
+     <div class="p-1 my-container active-cont">
+    <div class="container-fluid">
 
     <h2 id ="head" class="mt-3"> Welcome to CoursesPortfolio</h2>
     <h5 id ="head" class="mt-3"> What data science language would you like to start with?</h5>
@@ -130,7 +132,7 @@ body {
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/640px-Python-logo-notext.svg.png" alt="">
                 </div>
                 <div class="text-center mt-4 name">
-                        <span>    {{ course.title }}<br>
+                        <span style="font-size: 14px;">    {{ course.title }}<br>
                             Total Modules: {{ course.total_modules }}<br>
                             Instructor: {{ course.owner.get_full_name }} </span>
 
@@ -146,76 +148,7 @@ body {
 
 
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{#  <h1>#}
-{#    {% if category %}#}
-{#      {{ category.title }} courses#}
-{#    {% else %}#}
-{#      All courses#}
-{#    {% endif %}#}
-{#  </h1>#}
-{#  <div class="contents">#}
-{#    <h3>categories</h3>#}
-{#    <ul id="modules">#}
-{#      <li {% if not category %}class="selected"{% endif %}>#}
-{#        <a href="{% url "courses" %}">All</a>#}
-{#      </li>#}
-{#      {% for s in categories %}#}
-{#        <li {% if category == s %}class="selected"{% endif %}>#}
-{#          <a href="{% url "course_list_category" s.slug %}">#}
-{#            {{ s.title }}#}
-{#            <br><span>{{ s.total_courses }} courses</span>#}
-{#          </a>#}
-{#        </li>#}
-{#      {% endfor %}#}
-{#    </ul>#}
-{#  </div>#}
-{#  <div class="module">#}
-{#    {% for course in courses %}#}
-{#      {% with category=course.category %}#}
-{#        <h3>#}
-{#          <a href="{% url "course_detail" course.slug %}">#}
-{#            {{ course.title }}#}
-{#          </a>#}
-{#        </h3>#}
-{#        <p>#}
-{#          <a href="{% url "course_list_category" category.slug %}">{{ category }}</a>.#}
-{#            {{ course.total_modules }} modules.#}
-{#            Instructor: {{ course.owner.get_full_name }}#}
-{#        </p>#}
-{#      {% endwith %}#}
-{#    {% endfor %}#}
+    </div>
+     </div>
 
 {% endblock %}

@@ -128,39 +128,40 @@ body {
     <h2 id ="head" class="mt-3 py-5">Find your plan</h2>
 
 <div class="row">
+{#    <div class="col-md-4">#}
+{#        <div class="wrapper">#}
+{#            <div class="text-center mt-4 name">#}
+{#                Free#}
+{#            </div>#}
+{#            <div class="text-center mt-4 name2">#}
+{#                Give courses portfolio a try for free#}
+{#            </div>#}
+{#            <div class="text-center">#}
+{#                <span style="color:#ff9306; font-weight: 600; font-size: 3rem;">0$</span>#}
+{#                <span style="color:#5e5e5e">/month</span>#}
+{#            </div>#}
+{#        <button class="btn mt-3">Subscribe</button>#}
+{#        </div>#}
+{#    </div>#}
     <div class="col-md-4">
-        <div class="wrapper">
-            <div class="text-center mt-4 name">
-                Free
-            </div>
-            <div class="text-center mt-4 name2">
-                Give courses portfolio a try for free
-            </div>
-            <div class="text-center">
-                <span style="color:#ff9306; font-weight: 600; font-size: 3rem;">0$</span>
-                <span style="color:#5e5e5e">/month</span>
-            </div>
-        <button class="btn mt-3">Subscribe</button>
-        </div>
+{#        <div class="wrapper">#}
+{#            <div class="text-center mt-4 name">#}
+{#                Standard#}
+{#            </div>#}
+{#            <div class="text-center mt-4 name2">#}
+{#                All the essentials to grow your data skills#}
+{#            </div>#}
+{#            <div class="text-center">#}
+{#                <span style="color:#ff9306; font-weight: 600; font-size: 3rem;">25$</span>#}
+{#                <span style="color:#5e5e5e">/month</span>#}
+{#            </div>#}
+{#        <button class="btn mt-3">Subscribe</button>#}
+{#        </div>#}
     </div>
     <div class="col-md-4">
         <div class="wrapper">
-            <div class="text-center mt-4 name">
-                Standard
-            </div>
-            <div class="text-center mt-4 name2">
-                All the essentials to grow your data skills
-            </div>
-            <div class="text-center">
-                <span style="color:#ff9306; font-weight: 600; font-size: 3rem;">25$</span>
-                <span style="color:#5e5e5e">/month</span>
-            </div>
-        <button class="btn mt-3">Subscribe</button>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="wrapper">
-
+           <form action="{% url 'create-subscription' %}" method="POST">
+               {% csrf_token %}
             <div class="text-center mt-4 name">
                 Premium
             </div>
@@ -171,10 +172,49 @@ body {
                 <span style="color:#ff9306; font-weight: 600; font-size: 3rem;">33$</span>
                 <span style="color:#5e5e5e">/month</span>
             </div>
-        <button class="btn mt-3">Subscribe</button>
+              <a class="btn" href="{% url 'create-subscription' %}"> Subscribe  </a>
+
+              <input type="hidden" id="proPrice" name="priceId">
+
+{#              <span style="color:#ff9306; font-weight: 600; font-size: 3rem;">33$</span>#}
+{#                <span style="color:#5e5e5e">/month</span>#}
+{#              <button id="pro-plan-btn">Select</button>#}
+         </form>
+
+
+
+
+
+
+
+
+
+{#             <button class="btn mt-3">Subscribe</button>#}
         </div>
     </div>
 </div>
+
+{% block extrascript %}
+
+{% endblock %}
+<script>
+/* Fetch prices and update the form */
+var url = "{%  url 'config' %}" ;
+fetch(url)
+  .then(r => r.json())
+  .then(({basicPrice, proPrice}) => {
+    const basicPriceInput = document.querySelector('#basicPrice');
+    basicPriceInput.value = basicPrice;
+    const proPriceInput = document.querySelector('#proPrice');
+    proPriceInput.value = proPrice;
+  })
+
+
+
+</script>
+
+
+
 
 {% endblock content %}
 

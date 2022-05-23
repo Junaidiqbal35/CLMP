@@ -16,7 +16,7 @@ from djstripe.models import Customer, Subscription
 logger = logging.getLogger(__name__)
 
 MEMBERSHIP_CHOICES = (
-    ('Standard', 'standard'),
+    ('Premium', 'premium'),
     ('Free', 'free')
 )
 
@@ -53,7 +53,7 @@ class UserMembership(models.Model):
 
 def post_save_user_membership_create(sender, instance, created, *args, **kwargs):
     try:
-        stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+        stripe.api_key = 'sk_test_4CgRjsXz5H9ntyJSCZ7bCC2400JmmfIpy0'
         with transaction.atomic():
             user_membership, created = UserMembership.objects.get_or_create(user=instance)
             if created:
@@ -71,7 +71,7 @@ def post_save_user_membership_create(sender, instance, created, *args, **kwargs)
 
                 stripe_subscription = stripe.Subscription.create(
                     customer=stripe_customer["id"],
-                    items=[{'price': os.getenv('Free_Product_ID')}],
+                    items=[{'price': 'price_1L2JyOI4e8u2GP8qNE3k1ClJ'}],
 
                 )
 
@@ -104,7 +104,7 @@ class UserSubscription(models.Model):
     active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.user_membership.user.username
+        return self.user_membership.user.first_name
 
     @property
     def get_created_date(self):

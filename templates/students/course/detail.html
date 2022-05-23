@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ object.title }}
+{% endblock %}
+{% block extrahead %}
+    <style>
+        li{
+            display:inline-block;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+
+    <div class="p-1 my-container active-cont">
+        <div class="container-fluid">
+            <div class="contents">
+                <h3>{{ module.title }}</h3>
+                <ul class="nav-items">
+                    {% for m in object.modules.all %}
+                        <li data-id="{{ m.id }}" {% if m == module %}class="selected"{% endif %}>
+
+            <span>
+              Module <span class="order">{{ m.order|add:1 }}</span>
+            </span>
+                                <br>
+                        <a href="{% url "student_course_detail_module" object.id m.id %}">
+                        <li class="nav-link">   {{ m.title }} </li></a>
+
+
+                    {% empty %}
+                        <li>No modules yet.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    {% for content in module.contents.all %}
+                    <div class="card">
+                        <video  controls>
+                                    <source src="{{ content.video.url }}" type="video/mp4">
+
+                         </video>
+
+                          <div class="card-body">
+                            <h5 class="card-title">{{ content.title }}</h5>
+                          </div>
+                    </div>
+
+
+                {% empty %}
+                    <h2> no content </h2>
+                {% endfor %}
+
+                </div>
+
+            </div>
+
+            </div>
+        </div>
+
+{% endblock %}

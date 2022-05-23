@@ -1,4 +1,5 @@
-{% extends "base.html" %}
+{% extends "module_base.html" %}
+{% load crispy_forms_tags %}
 {% block title %}
   {% if object %}
     Edit content "{{ object.title }}"
@@ -6,20 +7,71 @@
     Add new content
   {% endif %}
 {% endblock %}
+
+
 {% block content %}
-  <h1>
-    {% if object %}
-      Edit content "{{ object.title }}"
-    {% else %}
-      Add new content
-    {% endif %}
-  </h1>
-  <div class="module">
-    <h2>Course info</h2>
-    <form action="" method="post" enctype="multipart/form-data">
-      {{ form.as_p }}
-      {% csrf_token %}
-      <p><input type="submit" value="Save content"></p>
-    </form>
-  </div>
+{#  <h1>#}
+{#    {% if object %}#}
+{#      Edit content "{{ object.title }}"#}
+{#    {% else %}#}
+{#      Add new content#}
+{#    {% endif %}#}
+{#  </h1>#}
+     <div class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column" id="sidebar">
+        <ul class="nav flex-column text-white w-100">
+
+            <h6 class="nav-link h6 text-white my-2">{{ object.title }}</h6>
+            <a href="{% url 'manage_course_list' %}" class="nav-link">
+            <i class="bx bxs-dashboard"></i>
+            <span class="mx-2">Your Courses</span>
+
+          </a>
+
+
+                <a href="{% url 'manage_course_list' %}" class="nav-link">
+            <i class="bx bxs-dashboard"></i>
+                    <span class="mx-2">{{ object.title }}</span></a>
+
+
+        </ul>
+
+
+
+        </div>
+
+
+        <div class="container-fluid">
+            <h1>
+                {% if object %}
+                  Edit content "{{ object.title }}"
+                {% else %}
+                  Add new content
+                {% endif %}
+            </h1>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="wrapper">
+                         <form action="" method="post" enctype="multipart/form-data">
+                             {% csrf_token %}
+                             {{ form|crispy }}
+                            <br>
+                              <button class="btn" type="submit"> Save content </button>
+
+                        </form>
+
+
+
+                    </div>
+
+
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
 {% endblock %}

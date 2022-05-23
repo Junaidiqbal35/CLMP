@@ -3,9 +3,7 @@
 
 
 {% block extrahead %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 <style>
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500');
 
@@ -34,56 +32,8 @@
 
     /* Sidebar Styles */
 
-    #sidebar {
-        z-index: 1000;
-        position: fixed;
-        left: 250px;
-        width: 250px;
-        height: 100%;
-        margin-left: -250px;
-        overflow-y: auto;
-        background: #ecf0f3;
-        -webkit-transition: all 0.5s ease;
-        -moz-transition: all 0.5s ease;
-        -o-transition: all 0.5s ease;
-        transition: all 0.5s ease;
-        box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
-    }
 
-    #sidebar header {
-        background-color: #550077;
-        font-size: 20px;
-        line-height: 52px;
-        text-align: center;
-    }
 
-    #sidebar header a {
-        color: #ecf0f3;
-        display: block;
-        text-decoration: none;
-    }
-
-    #sidebar header a:hover {
-        color: #9d36c5;
-    }
-
-    #sidebar .nav a {
-        background: none;
-        border-bottom: 1px solid #d4e3e9;
-        color: #550077;
-        font-size: 14px;
-        padding: 16px 24px;
-    }
-
-    #sidebar .nav a:hover {
-        background: none;
-        color: #9d36c5;
-    }
-
-    #sidebar .nav a i {
-        margin-right: 16px;
-
-    }
     .wrapper {
     max-width: 300px;
     min-height: 300px;
@@ -159,66 +109,7 @@
 {#  <h1>Edit "{{ course.title }}"</h1>#}
   <div id="viewport">
         <!-- Sidebar -->
-        <div id="sidebar">
-            <header>
-                <a href="#">Courses Portfolio</a>
-            </header>
-            <ul class="nav">
-                <li>
-                    <a href="#">
-                        <i class="zmdi zmdi-view-dashboard"></i> My Progress
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="zmdi zmdi-link"></i> My Bookmarks
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="zmdi zmdi-widgets"></i> Assessments
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="zmdi zmdi-calendar"></i> Courses
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="zmdi zmdi-info-outline"></i> Practice
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="zmdi zmdi-settings"></i> Projects
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="zmdi zmdi-comment-more"></i> Live Events
-                    </a>
-                </li>
-            </ul>
 
-        </div>
-        <!-- Content -->
-        <div id="content">
-            <nav class="navbar navbar-default" style="background: #ecf0f3;      box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff; ">
-                <div class="container-fluid">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#"><i class="zmdi zmdi-notifications text-danger"></i>
-                            {{course.title}}
-                            </a>
-                        </li>
-                        <li><div class="logo">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png" alt="">
-                        </div></li>
-                    </ul>
-
-                </div>
-            </nav>
             <div class="container-fluid">
                 <div class="row mt-4">
 

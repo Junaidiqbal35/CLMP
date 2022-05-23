@@ -67,7 +67,7 @@ class TeacherAddView(SignupView):
 
             teacher.save()
 
-            return redirect('index')
+            return redirect('courses')
         return render(request, self.template_name, {'form': form, 'work_form': work_form})
 
 

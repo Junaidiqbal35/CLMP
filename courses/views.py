@@ -34,10 +34,11 @@ class CourseDetailView(DetailView):
     model = Course
     template_name = 'courses/course/detail.html'
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['enroll_form'] = CourseEnrollForm(
-    #         initial={'course': self.object})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['enroll_form'] = CourseEnrollForm(
+            initial={'course': self.object})
+        return context
 
 
 class OwnerMixin(object):
@@ -70,30 +71,7 @@ class ManageCourseListView(OwnerCourseMixin, ListView):
 class CourseCreateView(OwnerCourseEditMixin, CreateView):
     permission_required = 'courses.add_course'
     model = Course
-
-    # def get_formset(self, data=None):
-    #     return ModuleFormSet(data=data)
-    #
-    # def get(self, request, *args, **kwargs):
-    #     formset = self.get_formset()
-    #     form = CourseForm()
-    #     return self.render_to_response({'form': form,
-    #                                     'formset': formset})
-    #
-    # def post(self, request, *args, **kwargs):
-    #     formset = self.get_formset(data=request.POST)
-    #     form = CourseForm(request.POST)
-    #
-    #     if formset.is_valid() and form.is_valid():
-    #         course = form.save(commit=False)
-    #         course.save()
-    #         formset.save(course=course)
-    #         return redirect('manage_course_list')
-    #     else:
-    #         print(formset.errors)
-    #         print(form.errors)
-    #         return self.render_to_response({'form': form,
-    #                                         'formset': formset})
+    fields = ['category', 'title', 'slug' ,'overview', 'subscription_package']
 
 
 class CourseUpdateView(OwnerCourseEditMixin, UpdateView):
@@ -232,7 +210,6 @@ class ContentDeleteView(View):
                                     id=id,
                                     module__course__owner=request.user)
         module = content.module
-        content.item.delete()
         content.delete()
         return redirect('module_content_list', module.id)
 
@@ -253,6 +230,7 @@ class ContentUpload(TemplateResponseMixin, View):
         self.module = get_object_or_404(Module,
                                         id=module_id,
                                         course__owner=request.user)
+
 
         if content_id:
             self.obj = get_object_or_404(Content,
@@ -297,9 +275,12 @@ class StudentEnrollCourseView(LoginRequiredMixin, FormView):
         self.course.students.add(self.request.user)
         return super().form_valid(form)
 
-    # def get_success_url(self):
-    #     return reverse_lazy('student_course_detail',
-    #                         args=[self.course.id])
+    def form_invalid(self, form):
+        print(form)
+
+    def get_success_url(self):
+        return reverse_lazy('student_course_detail',
+                            args=[self.course.id])
 
 
 class StudentCourseListView(LoginRequiredMixin, ListView):

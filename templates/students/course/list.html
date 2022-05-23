@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}My courses{% endblock %}
+{% block content %}
+    <div class="p-1 my-container active-cont">
+        <div class="container-fluid">
+            <div class="wrapper">
+            {% for course in object_list %}
+                <div class="course-info">
+                    <h3>{{ course.title }}</h3>
+                    <p><a href="{% url "student_course_detail" course.id %}">
+                        Access contents </a></p>
+                </div>
+            {% empty %}
+                <p>
+                    You are not enrolled in any courses yet.
+                    <a href="{% url "courses" %}">Browse courses</a>
+                    to enroll in a course.
+                </p>
+            {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

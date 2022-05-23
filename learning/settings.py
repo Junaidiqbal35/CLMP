@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'subscriptions',
+    'djstripe',
 
 ]
 AUTH_USER_MODEL = 'accounts.User'
@@ -96,8 +98,12 @@ AUTHENTICATION_BACKENDS = [
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'learning',
+        'USER': 'postgres',
+        'PASSWORD': '123456',
+        'HOST': 'localhost',
+
     }
 }
 
@@ -143,3 +149,9 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DJSTRIPE_USE_NATIVE_JSONFIELD = True
+DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
+DJSTRIPE_WEBHOOK_SECRET = "whsec_xxx"
+
+# STRIPE_PUBLISHABLE_KEY='pk_test_utELKNNX5QjQt9BTmkHlD71N00RZapjJeQ'
+STRIPE_TEST_SECRET_KEY  = 'sk_test_4CgRjsXz5H9ntyJSCZ7bCC2400JmmfIpy0'

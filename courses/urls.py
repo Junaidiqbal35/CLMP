@@ -5,6 +5,7 @@ from . import views
 from .views import CourseListView, ModuleDetailView
 
 urlpatterns = [
+    path('enroll-course/', views.StudentEnrollCourseView.as_view(), name='student_enroll_course'),
     path('mine/', views.ManageCourseListView.as_view(), name='manage_course_list'),
     path('create/', views.CourseCreateView.as_view(), name='course_create'),
     path('<pk>/edit/', views.CourseUpdateView.as_view(), name='course_edit'),
@@ -25,6 +26,9 @@ urlpatterns = [
     path('module/<int:module_id>/', views.ModuleContentListView.as_view(), name='module_content_list'),
     path('content/<int:id>/delete/', views.ContentDeleteView.as_view(), name='module_content_delete'),
 
-    path('enroll-course/', views.StudentEnrollCourseView.as_view(), name='student_enroll_course'),
+
+    path('student/courses/', views.StudentCourseListView.as_view(), name='student_course_list'),
+    path('student/course/<pk>/', views.StudentCourseDetailView.as_view(), name='student_course_detail'),
+    path('student/course/<pk>/<module_id>/', views.StudentCourseDetailView.as_view(), name='student_course_detail_module'),
 
 ]
