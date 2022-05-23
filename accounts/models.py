@@ -70,4 +70,4 @@ class Teacher(BaseTimestampModel):
         verbose_name_plural = _('Teachers')
 
     def __str__(self):
-        return self.user.username
+        return self.user.first_name

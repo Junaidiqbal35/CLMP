@@ -1,4 +1,5 @@
 from allauth.account.views import SignupView
+from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 
 # Create your views here.
@@ -58,6 +59,8 @@ class TeacherAddView(SignupView):
             user.set_password(form.cleaned_data['password'])
 
             user.is_teacher = True
+            group = Group.objects.get(name='teacher')
+            user.groups.add(group)
             user.save()
 
             # user = CustomUser.objects.get(email=user.email)
@@ -66,6 +69,7 @@ class TeacherAddView(SignupView):
             # complete_signup(request, user, app_settings.EMAIL_VERIFICATION, "/")
 
             teacher.save()
+
 
             return redirect('courses')
         return render(request, self.template_name, {'form': form, 'work_form': work_form})
