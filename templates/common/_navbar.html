@@ -51,15 +51,19 @@
             <i class="bx bx-conversation"></i>
             <span class="mx-2">Your Courses</span>
           </a>
+               <a href="{% url 'courses' %}" class="nav-link">
+            <i class="bx bx-conversation"></i>
+            <span class="mx-2">Courses</span>
+          </a>
+
            <form method="post" action="{% url 'account_logout' %}">
                   {% csrf_token %}
                   {% if redirect_field_value %}
                   <input class="dropdown-item" type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
                   {% endif %}
-                    <a  href="#" class="nav-link">
-                        <i class="bx bx-conversation"></i>
-                        <span class="mx-2">Logout</span>
-                      </a>
+
+                  <button class="nav-link" type="submit" style="border: none; background-color: transparent; ">  <i class="bx bx-conversation"></i>
+            <span class="mx-2">Logout</span>  </button>
 
 
 {#                  <button type="submit" class="btn" style="color: white; border: none;">Logout</button>#}
@@ -91,9 +95,14 @@
             <i class="bx bx-user-check"></i>
             <span class="mx-2">Profile</span>
           </a>
-          <a href="#" class="nav-link">
+           <a href="{% url 'student_course_list' %}" class="nav-link">
             <i class="bx bx-conversation"></i>
-            <span class="mx-2">Contact</span>
+            <span class="mx-2">Subscribed Courses</span>
+          </a>
+
+          <a href="{% url 'courses' %}" class="nav-link">
+            <i class="bx bx-conversation"></i>
+            <span class="mx-2">Courses</span>
           </a>
            <form method="post" action="{% url 'account_logout' %}">
                   {% csrf_token %}
@@ -101,10 +110,8 @@
                   <input class="dropdown-item" type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
                   {% endif %}
 
-                  <a  href="#" class="nav-link">
-                        <i class="bx bx-conversation"></i>
-                        <span class="mx-2">Logout</span>
-                      </a>
+                  <button class="nav-link" type="submit" style="border: none; background-color: transparent; ">  <i class="bx bx-conversation"></i>
+            <span class="mx-2">Logout</span>  </button>
 
             </form>
 
@@ -142,14 +149,14 @@
                 <div class="collapse navbar-collapse" id="mainMenu">
                     <ul class="navbar-nav ml-auto text-uppercase f1">
                         <li>
-                            <a href="#home" class="active active-first">home</a>
+                            <a href="{% url 'home' %}" class="active active-first">home</a>
                         </li>
                         <li>
                             <a href="#about">about us</a>
                         </li>
 
                         <li>
-                            <a href="#project">projects</a>
+                            <a href={% url 'plans' %}>Upgrade</a>
                         </li>
                         <li>
                             <a  href="{% url 'teacher-registration' %}">Become A Teacher</a>

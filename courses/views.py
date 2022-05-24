@@ -36,8 +36,12 @@ class CourseDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         context['enroll_form'] = CourseEnrollForm(
             initial={'course': self.object})
+        if Course.objects.filter(students__in=[self.request.user], slug=self.object.slug).exists():
+
+            context['is_enrolled'] = True
         return context
 
 
@@ -71,7 +75,7 @@ class ManageCourseListView(OwnerCourseMixin, ListView):
 class CourseCreateView(OwnerCourseEditMixin, CreateView):
     permission_required = 'courses.add_course'
     model = Course
-    fields = ['category', 'title', 'slug' ,'overview', 'subscription_package']
+    fields = ['category', 'title', 'slug', 'overview', 'subscription_package']
 
 
 class CourseUpdateView(OwnerCourseEditMixin, UpdateView):
@@ -231,7 +235,6 @@ class ContentUpload(TemplateResponseMixin, View):
                                         id=module_id,
                                         course__owner=request.user)
 
-
         if content_id:
             self.obj = get_object_or_404(Content,
                                          module=self.module,
@@ -310,5 +313,5 @@ class StudentCourseDetailView(DetailView):
                 id=self.kwargs['module_id'])
         else:
             # get first module
-            context['module'] = course.modules.all()[0]
+            context['module'] = course.modules.all()
         return context

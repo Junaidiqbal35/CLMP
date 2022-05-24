@@ -60,7 +60,7 @@ ROOT_URLCONF = 'learning.urls'
 
 LOGIN_REDIRECT_URL = "courses"
 
-LOGOUT_REDIRECT_URL = "courses"
+LOGOUT_REDIRECT_URL = "account_login"
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

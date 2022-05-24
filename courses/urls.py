@@ -18,7 +18,8 @@ urlpatterns = [
          name='module_content_update'),
 
 
-    path('', CourseListView.as_view(), name='courses'),
+    path('courses/', CourseListView.as_view(), name='courses'),
+    path('', TemplateView.as_view(template_name="index.html"), name='home'),
     path('category/<slug:category>/', CourseListView.as_view(),  name='course_list_category'),
     path('<slug:slug>/', views.CourseDetailView.as_view(), name='course_detail'),
     path('module/detail/<int:pk>/',  ModuleDetailView.as_view(), name='module_detail'),

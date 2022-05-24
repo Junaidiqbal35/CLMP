@@ -1,6 +1,7 @@
 import djstripe
 import stripe
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
@@ -18,6 +19,7 @@ def get_publishable_key(request):
     })
 
 
+@login_required
 def create_checkout_session(request):
     try:
         stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
@@ -32,7 +34,7 @@ def create_checkout_session(request):
             mode='subscription',
             customer_email=request.user.email,
             success_url='http://127.0.0.1:8000/subscription/' + 'success/{CHECKOUT_SESSION_ID}' + '/',
-            cancel_url='http://127.0.0.1:8000/subscription/' + 'cancel'+'/',
+            cancel_url='http://127.0.0.1:8000/subscription/' + 'cancel' + '/',
         )
     except Exception as e:
         return HttpResponse(e)

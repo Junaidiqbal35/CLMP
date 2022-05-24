@@ -4,137 +4,19 @@
     {{ object.title }}
 {% endblock %}
 {% block extrahead %}
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+   <style>
+    .enroll button{
+        background-color: #550077 !important;
+        color: white;
+    }
+    .enroll button:hover{
+        background-color: #550077 !important;
+        color: white;
+    }
 
-        /* Reseting */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
 
-        body {
-            background: #ecf0f3;
-        }
+   </style>
 
-        .wrapper {
-            max-width: 700px;
-            min-height: 300px;
-            margin: 40px auto;
-            padding: 40px 30px 30px 30px;
-            background-color: #ecf0f3;
-            border-radius: 15px;
-            box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
-        }
-
-        .logo {
-            width: 80px;
-            margin: auto;
-        }
-
-        .logo img {
-            width: 100%;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 50%;
-            box-shadow: 0px 0px 3px #5f5f5f,
-            0px 0px 0px 5px #ecf0f3,
-            8px 8px 15px #a7aaa7,
-            -8px -8px 15px #fff;
-        }
-
-        .wrapper .name {
-            font-weight: 600;
-            font-size: 1.4rem;
-            letter-spacing: 1.3px;
-            padding-left: 10px;
-            color: #555;
-        }
-
-        .wrapper .name2 {
-            font-weight: 400;
-            font-size: 1rem;
-            letter-spacing: 1.3px;
-            padding-right: 60px;
-            padding-bottom: 40px;
-            color: #555;
-            text-align: right;
-        }
-
-        .wrapper .form-field input {
-            width: 100%;
-            display: block;
-            border: none;
-            outline: none;
-            background: none;
-            font-size: 1.2rem;
-            color: #666;
-            padding: 10px 15px 10px 10px;
-            /* border: 1px solid red; */
-        }
-
-        .wrapper .form-field {
-            padding-left: 10px;
-            margin-bottom: 20px;
-            border-radius: 20px;
-            box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
-        }
-
-        .wrapper .form-field .fas {
-            color: #555;
-        }
-
-        .wrapper .btn {
-
-            width: 100%;
-            height: 40px;
-            background-color: #550077;
-            color: #fff;
-            border-radius: 25px;
-            box-shadow: 3px 3px 3px #b1b1b1;
-            letter-spacing: 1.3px;
-        }
-
-        .wrapper .btn:hover {
-            background-color: #9d36c5;
-        }
-
-        .wrapper a {
-            text-decoration: none;
-            font-size: 0.8rem;
-            color: #550077;
-        }
-
-        .wrapper a:hover {
-            color: #9d36c5;
-        }
-
-        #head {
-
-            color: #550077;
-            text-align: center;
-        }
-
-        .left {
-            text-align: left;
-            color: #550077;
-            padding-top: 50px;
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-
-        .see {
-            padding-top: 5%;
-            color: #550077;
-
-        }
-
-        .list {
-            padding-right: 5%;
-        }
-    </style>
 
 {% endblock extrahead %}
 
@@ -142,62 +24,45 @@
 
 {% block content %}
     <div class="p-1 my-container active-cont">
-        <div class="container-fluid">
-            {% with category=object.category %}
 
-                <h2 id="head" class="mt-3"> {{ object.title }}</h2>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-9 left">
-                            <p style='line-height: 20px'>
-                                <img src="{% static 'images/arrow.png' %}" height="40" width="40"
-                                     style='vertical-align: middle'/>
+        {% with category=object.category %}
+            <div class="jumbotron">
+                <h2 class="display-4"> {{ object.title }}</h2>
+                <h3> Course Description </h3>
+                <p class="lead dark">
+                    {{ object.overview|linebreaks }}
+                </p>
 
-                                {{ object.overview|linebreaks }}
-                            </p>
-                        </div>
+
+            </div>
+
+        {% endwith %}
+        <div class="container-fluid mt-3">
+
+            <div class="row">
+                <div class="col-md-8 enroll">
+
+                        {% if request.user.is_authenticated and  not is_enrolled %}
+                            <form action="{% url "student_enroll_course" %}" method="post">
+                                {{ enroll_form }}
+                                {% csrf_token %}
+                                <button class="btn" type="submit" value="Enroll now"> Enroll now</button>
+                            </form>
+                            {#                            {% elif request.user.is_premium %}#}
+                            {#                                <p> you already have premium membership, you can access the content.</p>#}
+                        {% elif is_enrolled %}
+                             <button class="btn"> Already Enrolled </button>
+                        {% else %}
+                            <a href="{% url "student-registration" %}" class="btn">
+                                Register to enroll
+                            </a>
+                        {% endif %}
+                        {#                    <button class="btn mt-4"> Enroll now </button>#}
+
+
                     </div>
-                </div>
-            {% endwith %}
-            <div class="container-fluid mt-3">
 
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="wrapper">
-                            <div class="row">
-                                <div class="col-sm-2">
-{#                                    <div class="logo">#}
-{#                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/640px-Python-logo-notext.svg.png"#}
-{#                                             alt="">#}
-{#                                    </div>#}
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="text-center mt-4 name">
-                                        {#                                {{ object.overview|linebreaks }}#}
-                                    </div>
-                                    <div class="mt-4 name2">
-                                         {{ object.title }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {% if request.user.is_authenticated %}
-                                <form action="{% url "student_enroll_course" %}" method="post">
-                                    {{ enroll_form }}
-                                    {% csrf_token %}
-                                    <button class="btn" type="submit" value="Enroll now"> Enroll now</button>
-                                </form>
-                            {% else %}
-                                <a href="{% url "student-registration" %}" class="btn">
-                                    Register to enroll
-                                </a>
-                            {% endif %}
-                            {#                    <button class="btn mt-4"> Enroll now </button>#}
-
-
-                        </div>
-                    </div>
-                    {% if request.user.is_premium %}
+                {% if request.user.is_premium %}
                     <div class="col-md-4 list">
                         <div class="list-group">
                             <a href="#" class="list-group-item" style="background: #550077; color: #fff"
@@ -212,7 +77,7 @@
 
                         </div>
                     </div>
-                   {% else %}
+                {% else %}
 
                     <div class="col-md-4 list">
                         <div class="list-group">
@@ -222,7 +87,8 @@
                             {% for m in course.modules.all %}
 
                                 <li href="{% url 'module_detail' m.id %}"
-                                   class="list-group-item list-group-item-action">{{ m.title }} > </li>
+                                    class="list-group-item list-group-item-action">{{ m.title }} >
+                                </li>
                             {% endfor %}
 
 
@@ -231,11 +97,10 @@
                 {% endif %}
 
 
-
-                </div>
             </div>
         </div>
-    </div>
+
+
 
 
 {% endblock %}

@@ -37,7 +37,7 @@ class StudentAddView(SignupView):
             student.save()
             # complete_signup(request, user, app_settings.EMAIL_VERIFICATION, "/")
 
-            return redirect('courses')
+            return redirect('account_login')
         return render(request, self.template_name, {'form': form, 'work_form': work_form})
 
 
@@ -59,9 +59,10 @@ class TeacherAddView(SignupView):
             user.set_password(form.cleaned_data['password'])
 
             user.is_teacher = True
+
+            user.save()
             group = Group.objects.get(name='teacher')
             user.groups.add(group)
-            user.save()
 
             # user = CustomUser.objects.get(email=user.email)
             teacher = work_form.save(commit=False)
@@ -70,8 +71,7 @@ class TeacherAddView(SignupView):
 
             teacher.save()
 
-
-            return redirect('courses')
+            return redirect('account_login')
         return render(request, self.template_name, {'form': form, 'work_form': work_form})
 
 
