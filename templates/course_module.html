@@ -1,0 +1,35 @@
+  <div class="row">
+          {% for video_data in guidance %}
+              <div class="col-md-4">
+         <div class="card border-0" style="width: 18rem;" >
+
+
+                {% if video_data.video %}
+
+
+                    <video width="360" height="300" controls class="card-img-top">
+
+                        <source src="{{ video_data.video.url }}" type="video/mp4">
+
+                    </video>
+                 {% elif video_data.video_url %}
+                    <div class="embed-responsive embed-responsive-4by3" style="margin-top: 20px;">
+                            <iframe class="embed-responsive-item" src="{{ video_data.video_url }}" allowfullscreen></iframe>
+                    </div>
+
+
+
+
+
+                 {% else %}
+                    <p class="lead"> nothing to show </p>
+                 {% endif %}
+
+                <div class="card-body">
+                    <h5 class="card-title">{{video_data.video_title}}</h5>
+
+                </div>
+        </div>
+              </div>
+     {% endfor %}
+         </div>

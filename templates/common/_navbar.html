@@ -95,15 +95,7 @@
             <i class="bx bx-user-check"></i>
             <span class="mx-2">Profile</span>
           </a>
-           <a href="{% url 'student_course_list' %}" class="nav-link">
-            <i class="bx bx-conversation"></i>
-            <span class="mx-2">Subscribed Courses</span>
-          </a>
 
-          <a href="{% url 'courses' %}" class="nav-link">
-            <i class="bx bx-conversation"></i>
-            <span class="mx-2">Courses</span>
-          </a>
            <form method="post" action="{% url 'account_logout' %}">
                   {% csrf_token %}
                   {% if redirect_field_value %}
@@ -148,25 +140,28 @@
                 </button>
                 <div class="collapse navbar-collapse" id="mainMenu">
                     <ul class="navbar-nav ml-auto text-uppercase f1">
-                        <li>
-                            <a href="{% url 'home' %}" class="active active-first">home</a>
-                        </li>
-                        <li>
-                            <a href="#about">about us</a>
-                        </li>
+                        {% if request.user.is_teacher %}
 
-                        <li>
-                            <a href={% url 'plans' %}>Upgrade</a>
-                        </li>
-                        <li>
-                            <a  href="{% url 'teacher-registration' %}">Become A Teacher</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'student-registration' %}"> Student Sign Up</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'account_login' %}">Sign in</a>
-                        </li>
+                            <li>
+                            <a href="{% url 'manage_course_list' %}">Your Courses</a>
+
+                            </li>
+
+                        {% elif request.user.is_student %}
+
+                            <lI>      <a href={% url 'plans' %}>Upgrade</a> </lI>
+
+
+                        {% else %}
+                               <li><a href="{% url 'home' %}" class="active active-first">home</a></li>
+                            <lI>      <a href={% url 'plans' %}>Upgrade</a> </lI>
+                            <li>    <a href="{% url 'account_login' %}">Sign in</a> </li>
+                            <li>     <a href="{% url 'student-registration' %}"> Become A Teacher</a></li>
+                              <li>    <a href="{% url 'student-registration' %}"> Student Sign Up</a></li>
+
+
+                        {% endif %}
+
                     </ul>
                 </div>
             </nav>

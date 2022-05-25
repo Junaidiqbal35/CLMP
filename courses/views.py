@@ -1,12 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Count
 from django.forms import modelform_factory
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView
 from django.views.generic.base import TemplateResponseMixin, View
 from django.apps import apps
-from .forms import ModuleFormSet, CourseEnrollForm
-from .models import Course, Content, Module, Category
+from .forms import ModuleFormSet, CourseEnrollForm, CommentForm
+from .models import Course, Content, Module, Category, Comment
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, \
@@ -25,6 +25,11 @@ class CourseListView(TemplateResponseMixin, View):
         if category:
             category = get_object_or_404(Category, slug=category)
             courses = courses.filter(category=category)
+        try:
+            if request.user.is_teacher:
+                return redirect('manage_course_list')
+        except Exception:
+            pass
         return self.render_to_response({'categories': categories,
                                         'category': category,
                                         'courses': courses})
@@ -39,9 +44,11 @@ class CourseDetailView(DetailView):
 
         context['enroll_form'] = CourseEnrollForm(
             initial={'course': self.object})
-        if Course.objects.filter(students__in=[self.request.user], slug=self.object.slug).exists():
-
-            context['is_enrolled'] = True
+        try:
+            if Course.objects.filter(students__in=[self.request.user], slug=self.object.slug).exists():
+                context['is_enrolled'] = True
+        except Exception:
+            pass
         return context
 
 
@@ -92,6 +99,13 @@ class ModuleDetailView(DetailView):
     model = Module
     template_name = 'courses/module/module_detail.html'
 
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #
+    #     context['comment_form'] = CommentForm()
+    #
+    #     return context
+
 
 class CourseModuleUpdateView(TemplateResponseMixin, View):
     template_name = 'courses/manage/module/formset.html'
@@ -119,83 +133,6 @@ class CourseModuleUpdateView(TemplateResponseMixin, View):
             return redirect('manage_course_list')
         return self.render_to_response({'course': self.course,
                                         'formset': formset})
-
-
-# class CourseModuleCreateView(CreateView):
-#     model = Course
-#     form_class = ModuleFormSet
-#     template_name = 'form.html'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super(CourseModuleCreateView, self).get_context_data(**kwargs)
-#         context['formset'] = ModuleFormSet()
-#         # context['day_form'] = DayForm()
-#         return context
-#
-#     def post(self, request, *args, **kwargs):
-#         formset = self.form_class(request.POST)
-#         if formset.is_valid():
-#             return self.form_valid(formset)
-#
-#     def form_valid(self, formset):
-#         instances = formset.save(commit=False)
-#         for instance in instances:
-#             # instance.day = day
-#             instance.save()
-#         return HttpResponseRedirect('/dashboard/')
-
-
-class ContentCreateUpdateView(TemplateResponseMixin, View):
-    module = None
-    model = None
-    obj = None
-    template_name = 'courses/manage/content/form.html'
-
-    def get_model(self, model_name):
-        if model_name in ['text', 'video', 'image', 'file']:
-            return apps.get_model(app_label='courses',
-                                  model_name=model_name)
-        return None
-
-    def get_form(self, model, *args, **kwargs):
-        Form = modelform_factory(model, exclude=['owner',
-                                                 'order',
-                                                 'created',
-                                                 'updated'])
-        return Form(*args, **kwargs)
-
-    def dispatch(self, request, module_id, model_name, id=None):
-        self.module = get_object_or_404(Module,
-                                        id=module_id,
-                                        course__owner=request.user)
-        self.model = self.get_model(model_name)
-        if id:
-            self.obj = get_object_or_404(self.model,
-                                         id=id,
-                                         owner=request.user)
-        return super().dispatch(request, module_id, model_name, id)
-
-    def get(self, request, module_id, model_name, id=None):
-        form = self.get_form(self.model, instance=self.obj)
-        return self.render_to_response({'form': form,
-                                        'object': self.obj})
-
-    def post(self, request, module_id, model_name, id=None):
-        form = self.get_form(self.model,
-                             instance=self.obj,
-                             data=request.POST,
-                             files=request.FILES)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.owner = request.user
-            obj.save()
-            if not id:
-                # new content
-                Content.objects.create(module=self.module,
-                                       item=obj)
-            return redirect('module_content_list', self.module.id)
-        return self.render_to_response({'form': form,
-                                        'object': self.obj})
 
 
 class ModuleContentListView(TemplateResponseMixin, View):
@@ -315,3 +252,21 @@ class StudentCourseDetailView(DetailView):
             # get first module
             context['module'] = course.modules.all()
         return context
+
+#
+# def comment_view(request, content_id):
+#     course_video = get_object_or_404(Content, id=content_id)
+#     if request.method == 'POST':
+#         comment_form = CommentForm(request.POST or None)
+#         if comment_form.is_valid():
+#             content = request.POST.get('body')
+#             comment = Comment.objects.create(course_video=course_video, commenter=request.user, body=content)
+#             comment.save()
+#             return redirect('index')
+#         else:
+#             cf = CommentForm()
+#
+#         context = {
+#             'comment_form': cf,
+#         }
+#         return render(request, 'socio / post_detail.html', context)

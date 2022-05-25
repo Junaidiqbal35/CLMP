@@ -89,20 +89,23 @@ a {
         <div class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column" id="sidebar">
         <ul class="nav flex-column text-white w-100">
            {% with course=module.course %}
-            <h6 class="nav-link h6 text-white my-2">{{ course.title }}</h6>
+
                 <a href="{% url 'manage_course_list' %}" class="nav-link">
             <i class="bx bxs-dashboard"></i>
-            <span class="mx-2">Your Courses</span>
+            <span class="mx-2">Your Course</span>
+
 
           </a>
+
                <hr>
-
-
+                        <h6 class="nav-link h6 text-white my-2">{{ course.title }}</h6>
+                       <h2> Chapters </h2>
+                        <hr>
                       {% for m in course.modules.all %}
                         <li data-id="{{ m.id }}" {% if m == module %}
                          class="selected"{% endif %}>
                           <a href="{% url "module_content_list" m.id %}">
-                             <i class="bx"></i>  {{ m.title }}
+                             <i class="bx"></i> {{ m.order|add:1 }}) {{ m.title }}
 
                           </a>
                           <hr>
@@ -124,26 +127,6 @@ a {
 
 
 
-                    <h6>Module {{ module.order|add:1 }}: {{ module.title }}</h6>
-                    <hr>
-{#                    <h3>Module contents:</h3>#}
-                      {% for content in module.contents.all %}
-                            <div data-id="{{ content.id }}">
-
-
-                            </div>
-
-                          <a href="#">
-                             > <i class="bx"></i> {{ content.title }}
-                          </a>
-                          <hr>
-
-
-
-                      {% empty %}
-                        <p>This module has no contents yet.</p>
-                      {% endfor %}
-                    {% endwith %}
 
 
 
@@ -154,7 +137,14 @@ a {
         <div class="p-1 my-container active-cont">
 
          <div class="container-fluid">
+                <div class="jumbotron">
 
+
+                <h6 class="display-4 text-center mt-5">Chapter{{ module.order|add:1 }}) {{ module }} </h6>
+                <h6>
+                    <a class="btn btn-primary" href="{% url 'module_content_create'  module.id  %}"> Add New Content </a> </h6>
+                </div>
+         <hr>
 
                 <div class="row mt-4">
 
@@ -176,7 +166,7 @@ a {
                             </form>
                              {% with course=module.course %}
                     <a href="{% url "course_module_update" course.id %}" class="btn">
-                        Edit modules {{ module }}</a>
+                        Edit modules</a>
                  {% endwith %}
 
 
@@ -189,58 +179,17 @@ a {
                     </div>
                      {% empty %}
                         <p>This module has no contents yet</p>
-                        <li><a href="{% url "module_content_create" module.id %}" class="btn">Create Content</a></li>
-{#                      Video</a></li>#}
+                        <li><a href="{% url "module_content_create" module.id %}" class="btn btn-primary">Create Content</a></li>
+
 
                       {% endfor %}
                 </div>
 
-{#                {% with course=module.course %}#}
-{##}
-{#                  <h1>{{ course.title }}</h1>#}
-{#                  <div class="contents">#}
-{##}
-{#                    <a href="{% url "course_module_update" course.id %}" class="btn">#}
-{#                    Edit modules</a>#}
-{#                  </div>#}
-{#                  <div class="module">#}
-{#                    <h2>Module {{ module.order|add:1 }}: {{ module.title }}</h2>#}
-{#                    <h3>Module contents:</h3>#}
-{#                    <div id="module-contents">#}
-{#                      {% for content in module.contents.all %}#}
-{#                        <div data-id="{{ content.id }}">#}
-{#                          {% with item=content.item %}#}
-{##}
-{#                            <h2>{{ content.title }}</h2>#}
-{#                            <a href="{% url "module_content_update" module.id content.id%}" class="btn">#}
-{#                                Edit#}
-{#                            </a>#}
-{#                            <form action="{% url "module_content_delete" content.id %}"#}
-{#                             method="post">#}
-{#                                <button type="submit" class="btn" value="Delete"> Delete</button>#}
-{#                              {% csrf_token %}#}
-{#                            </form>#}
-{#                          {% endwith %}#}
-{#                        </div>#}
-{#                      {% empty %}#}
-{#                        <p>This module has no contents yet.</p>#}
-{#                      {% endfor %}#}
-{#                    </div>#}
-{#                    <h3>Add new content:</h3>#}
-{#                    <ul class="content-types block">#}
-{##}
-{#                      <li><a href="{% url "module_content_create" module.id %}" class="btn">#}
-{#                      Video</a></li>#}
-{#                      <li><a href="{% url "module_content_create" module.id "file" %}">#}
-{#                      File</a></li>#}
-{#                    </ul>#}
-{#                  </div>#}
-{#                {% endwith %}#}
 
 
             </div>
 
         </div>
 
-
+    {% endwith %}
 {% endblock content %}

@@ -3,23 +3,46 @@
 {% block content %}
     <div class="p-1 my-container active-cont">
         <div class="container-fluid">
-            <div class="wrapper">
-            {% for course in object_list %}
-                <div class="course-info">
-                    <h3>{{ course.title }}</h3>
-                    <p><a href="{% url "student_course_detail" course.id %}">
-                        Access contents </a></p>
+        <div class="row">
+          {% for course in object_list %}
+            <div class="col-md-4">
+                <div class="wrapper">
+
+                    <div class="course-info">
+                        <h3>{{ course.title }}</h3>
+                         <p> Instructor: {{ course.owner.first_name }} </p>
+                           <h2>Modules</h2>
+                           {% for m in course.modules.all %}
+                               <ul>
+                                 <a href="{% url "module_detail" m.id %}">
+
+                                <li> {{ m }} </li></a>
+                               </ul>
+
+                            {% endfor %}
+
+                        <p><a href="{% url "student_course_detail" course.id %}">
+                            Access contents </a></p>
+
+                    </div>
                 </div>
+            </div>
+
             {% empty %}
                 <p>
                     You are not enrolled in any courses yet.
                     <a href="{% url "courses" %}">Browse courses</a>
                     to enroll in a course.
                 </p>
-            {% endfor %}
-            </div>
+
+
+
+             {% endfor %}
+        </div>
+
 
         </div>
     </div>
+
 
 {% endblock %}

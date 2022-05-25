@@ -19,9 +19,9 @@ a{
 
 {% block content %}
 
-        <!-- Sidebar -->
+        <div class="p-1 my-container active-cont">
 
-        <!-- Content -->
+         <div class="container-fluid">
                  <div class="row">
                  {% for course in object_list %}
                      <div class="col-sm-3">
@@ -37,11 +37,13 @@ a{
                          <a href="{% url "course_edit" course.id %}" class="name2">Edit</a>
                          <a href="{% url "course_delete" course.id %}" class="name2">Delete</a>
                          <a href="{% url "course_module_update" course.id %}" class="name2">Edit modules</a>
+
                         {% if course.modules.count > 0 %}
                             <a href="{% url "module_content_list" course.modules.first.id %}" class="name2">
                                 Manage contents</a>
                         {% endif %}
-                        <br>
+                          <p class="name2" style="font-size: 14px;"> Total Students Enrollment: {{course.students.count}}</p>
+
                          <a href="{% url "course_create" %}" class="name2">Create New Course</a>
                         </div>
 
@@ -57,7 +59,8 @@ a{
 
                 {% endfor %}
                  </div>
-
+         </div>
+        </div>
 
 
 

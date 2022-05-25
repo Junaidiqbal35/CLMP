@@ -1,77 +1,89 @@
-{% extends "module_base.html" %}
+{% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block title %}
-  {% if object %}
-    Edit content "{{ object.title }}"
-  {% else %}
-    Add new content
-  {% endif %}
+    {% if object %}
+        Edit content "{{ object.title }}"
+    {% else %}
+        Add new content
+    {% endif %}
+{% endblock %}
+
+{% block extrahead %}
+
+    <style>
+       .my-form .btn{
+              width: 100%;
+    height: 40px;
+    background-color: #550077;
+    color: #fff;
+    border-radius: 25px;
+    box-shadow: 3px 3px 3px #b1b1b1;
+    letter-spacing: 1.3px;
+}
+
+
+
+        .form-control {
+            width: 100% !important;
+            display: block !important;
+            border: none !important;
+            outline: none !important;
+            background: none !important;
+            font-size: 1.2rem !important;
+            color: #666 !important;
+            padding: 10px 15px 10px 10px !important;
+            margin-bottom: 20px !important;
+            border-radius: 20px !important;
+            box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff !important;
+
+        }
+
+        label {
+            margin-bottom: 6px;
+            color: #550077;
+        }</style>
 {% endblock %}
 
 
 {% block content %}
-{#  <h1>#}
-{#    {% if object %}#}
-{#      Edit content "{{ object.title }}"#}
-{#    {% else %}#}
-{#      Add new content#}
-{#    {% endif %}#}
-{#  </h1>#}
-     <div class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column" id="sidebar">
-        <ul class="nav flex-column text-white w-100">
 
-            <h6 class="nav-link h6 text-white my-2">{{ object.title }}</h6>
-            <a href="{% url 'manage_course_list' %}" class="nav-link">
-            <i class="bx bxs-dashboard"></i>
-            <span class="mx-2">Your Courses</span>
+    <div id="viewport">
+        <!-- Sidebar -->
+        <!-- Content -->
+        <div id="content">
+            <div class="p-1 my-container active-cont">
 
-          </a>
+                <h1>
+                    {% if object %}
+                        Edit content "{{ object.title }}"
+                    {% else %}
+                        Add new content
+                    {% endif %}
+                </h1>
+                <div class="row">
+                    <div class="col-md-8 my-form" style="margin-left: 10px;">
 
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <br>
+                                <button class="btn" type="submit"> Save content</button>
 
-                <a href="{% url 'manage_course_list' %}" class="nav-link">
-            <i class="bx bxs-dashboard"></i>
-                    <span class="mx-2">{{ object.title }}</span></a>
-
-
-        </ul>
-
-
-
-        </div>
+                            </form>
 
 
-        <div class="container-fluid">
-            <h1>
-                {% if object %}
-                  Edit content "{{ object.title }}"
-                {% else %}
-                  Add new content
-                {% endif %}
-            </h1>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="wrapper">
-                         <form action="" method="post" enctype="multipart/form-data">
-                             {% csrf_token %}
-                             {{ form|crispy }}
-                            <br>
-                              <button class="btn" type="submit"> Save content </button>
-
-                        </form>
-
+                        </div>
 
 
                     </div>
 
 
-
-
                 </div>
 
 
-            </div>
-
 
         </div>
+    </div>
+
 
 {% endblock %}

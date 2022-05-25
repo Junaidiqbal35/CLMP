@@ -72,12 +72,6 @@ class Content(models.Model):
                               on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
     video = models.FileField(upload_to='courses/video/')
-
-    # content_type = models.ForeignKey(ContentType,
-    #                                  on_delete=models.CASCADE)
-    # object_id = models.PositiveIntegerField()
-    # item = GenericForeignKey('content_type', 'object_id')
-
     order = OrderField(blank=True, for_fields=['module'])
 
     created = models.DateTimeField(auto_now_add=True)
@@ -87,32 +81,15 @@ class Content(models.Model):
         ordering = ['order']
 
 
-# class ItemBase(models.Model):
-#     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
-#                               related_name='%(class)s_related',
-#                               on_delete=models.CASCADE)
-#     title = models.CharField(max_length=250)
-#     created = models.DateTimeField(auto_now_add=True)
-#     updated = models.DateTimeField(auto_now=True)
-#
-#     class Meta:
-#         abstract = True
-#
-#     def __str__(self):
-#         return self.title
-#
-#
-# class Text(ItemBase):
-#     content = models.TextField()
-#
-#
-# class File(ItemBase):
-#     file = models.FileField(upload_to='files')
-#
-#
-# class Image(ItemBase):
-#     file = models.FileField(upload_to='images')
-#
-#
-# class Video(ItemBase):
-#     url = models.URLField()
+class Comment(models.Model):
+    course_video = models.ForeignKey(Content,
+                                     on_delete=models.CASCADE,
+                                     related_name='comments')
+    commenter = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user_comments', on_delete=models.CASCADE)
+    body = models.TextField(max_length=250)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ('-created',)

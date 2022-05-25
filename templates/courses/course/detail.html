@@ -42,11 +42,15 @@
             <div class="row">
                 <div class="col-md-8 enroll">
 
-                        {% if request.user.is_authenticated and  not is_enrolled %}
+                        {% if request.user.is_authenticated and  not is_enrolled  %}
                             <form action="{% url "student_enroll_course" %}" method="post">
                                 {{ enroll_form }}
                                 {% csrf_token %}
-                                <button class="btn" type="submit" value="Enroll now"> Enroll now</button>
+                                {% if request.user.is_premium %}
+                                    <button class="btn" type="submit" value="Enroll now"> Enroll now</button>
+                                {% else %}
+                                    <a href="{% url 'plans' %}">Upgrade your plan </a>
+                                {% endif %}
                             </form>
                             {#                            {% elif request.user.is_premium %}#}
                             {#                                <p> you already have premium membership, you can access the content.</p>#}

@@ -1,6 +1,6 @@
 from django import forms
 from django.forms.models import inlineformset_factory
-from .models import Course, Module, Content
+from .models import Course, Module, Content, Comment
 
 
 class CourseForm(forms.ModelForm):
@@ -26,3 +26,11 @@ ModuleFormSet = inlineformset_factory(Course,
 class CourseEnrollForm(forms.Form):
     course = forms.ModelChoiceField(queryset=Course.objects.all(),
                                     widget=forms.HiddenInput)
+
+
+class CommentForm(forms.Form):
+    body = forms.TextInput()
+
+    class Meta:
+        model = Comment
+        fields = ['body']
