@@ -82,9 +82,9 @@ class Content(models.Model):
 
 
 class Comment(models.Model):
-    course_video = models.ForeignKey(Content,
-                                     on_delete=models.CASCADE,
-                                     related_name='comments')
+    course = models.ForeignKey(Course,
+                               on_delete=models.CASCADE,
+                               related_name='course_comments')
     commenter = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user_comments', on_delete=models.CASCADE)
     body = models.TextField(max_length=250)
     created = models.DateTimeField(auto_now_add=True)

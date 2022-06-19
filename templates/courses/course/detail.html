@@ -1,21 +1,23 @@
 {% extends "base.html" %}
+{% load crispy_forms_filters %}
 {% load static %}
 {% block title %}
     {{ object.title }}
 {% endblock %}
 {% block extrahead %}
-   <style>
-    .enroll button{
-        background-color: #550077 !important;
-        color: white;
-    }
-    .enroll button:hover{
-        background-color: #550077 !important;
-        color: white;
-    }
+    <style>
+        .enroll button {
+            background-color: #550077 !important;
+            color: white;
+        }
+
+        .enroll button:hover {
+            background-color: #550077 !important;
+            color: white;
+        }
 
 
-   </style>
+    </style>
 
 
 {% endblock extrahead %}
@@ -42,29 +44,29 @@
             <div class="row">
                 <div class="col-md-8 enroll">
 
-                        {% if request.user.is_authenticated and  not is_enrolled  %}
-                            <form action="{% url "student_enroll_course" %}" method="post">
-                                {{ enroll_form }}
-                                {% csrf_token %}
-                                {% if request.user.is_premium %}
-                                    <button class="btn" type="submit" value="Enroll now"> Enroll now</button>
-                                {% else %}
-                                    <a href="{% url 'plans' %}">Upgrade your plan </a>
-                                {% endif %}
-                            </form>
-                            {#                            {% elif request.user.is_premium %}#}
-                            {#                                <p> you already have premium membership, you can access the content.</p>#}
-                        {% elif is_enrolled %}
-                             <button class="btn"> Already Enrolled </button>
-                        {% else %}
-                            <a href="{% url "student-registration" %}" class="btn">
-                                Register to enroll
-                            </a>
-                        {% endif %}
-                        {#                    <button class="btn mt-4"> Enroll now </button>#}
+                    {% if request.user.is_authenticated and  not is_enrolled %}
+                        <form action="{% url "student_enroll_course" %}" method="post">
+                            {{ enroll_form }}
+                            {% csrf_token %}
+                            {% if request.user.is_premium %}
+                                <button class="btn" type="submit" value="Enroll now"> Enroll now</button>
+                            {% else %}
+                                <a href="{% url 'plans' %}">Upgrade your plan </a>
+                            {% endif %}
+                        </form>
+                        {#                            {% elif request.user.is_premium %}#}
+                        {#                                <p> you already have premium membership, you can access the content.</p>#}
+                    {% elif is_enrolled %}
+                        <button class="btn"> Already Enrolled</button>
+                    {% else %}
+                        <a href="{% url "student-registration" %}" class="btn">
+                            Register to enroll
+                        </a>
+                    {% endif %}
+                    {#                    <button class="btn mt-4"> Enroll now </button>#}
 
 
-                    </div>
+                </div>
 
                 {% if request.user.is_premium %}
                     <div class="col-md-4 list">
@@ -101,10 +103,73 @@
                 {% endif %}
 
 
+
+                <section>
+                    <div class="container my-5 py-5">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-12 col-lg-10">
+                                <div class="card text-dark">
+                                    <div class="form-outline">
+                                        <form action="{% url 'add comment' object.slug %}" method="post">
+                                            {% csrf_token %}
+                                            {{ comment_form | crispy }}
+                                            <br>
+                                            <button class="btn btn-md btn-primary" type="submit"> Add A Comment</button>
+
+                                        </form>
+
+
+                                    </div>
+                                    <hr>
+                                    {% for comment in comments %}
+                                        <div class="card-body p-4">
+                                            <h4 class="mb-0">Recent comments</h4>
+                                            <p class="fw-light mb-4 pb-2">Latest Comments section by users</p>
+
+                                            <div class="d-flex flex-start">
+                                                <img class="rounded-circle shadow-1-strong me-3"
+                                                     src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(23).webp"
+                                                     alt="avatar" width="60"
+                                                     height="60"/>
+                                                <div>
+                                                    <h6 class="fw-bold mb-1">{{ comment.commenter }}</h6>
+                                                    <div class="d-flex align-items-center mb-3">
+                                                        <p class="mb-0">
+                                                            {{ comment.created }}
+
+                                                        </p>
+                                                    </div>
+                                                    <p class="mb-0">
+                                                        {{ comment.body }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% empty %}
+                                        <p class="mb-0">no comment yet</p>
+
+                                    {% endfor %}
+                                    {#                                     <form action="." method="POST">#}
+                                    {#                        {% csrf_token %}#}
+                                    {#                        {{ comment_form| crispy }}#}
+                                    {#                        <button class="btn" type="submit"> Post Comment</button>#}
+                                    {#                    </form>#}
+
+
+                                    <hr class="my-0"/>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+
             </div>
         </div>
-
-
+    </div>
 
 
 {% endblock %}

@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import Category, Course, Module, Content
+from .models import Category, Course, Module, Content, Comment
 
 
 @admin.register(Category)
@@ -25,3 +25,4 @@ class CourseAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Content)
+admin.site.register(Comment)

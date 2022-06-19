@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Count
 from django.forms import modelform_factory
@@ -7,7 +8,7 @@ from django.views.generic.base import TemplateResponseMixin, View
 from django.apps import apps
 from .forms import ModuleFormSet, CourseEnrollForm, CommentForm
 from .models import Course, Content, Module, Category, Comment
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, \
     DeleteView, FormView
@@ -44,11 +45,17 @@ class CourseDetailView(DetailView):
 
         context['enroll_form'] = CourseEnrollForm(
             initial={'course': self.object})
+        context['comment_form'] = CommentForm()
+        context['comments'] = self.object.course_comments.all()
         try:
+
             if Course.objects.filter(students__in=[self.request.user], slug=self.object.slug).exists():
                 context['is_enrolled'] = True
+            else:
+                context['is_enrolled'] = False
         except Exception:
             pass
+
         return context
 
 
@@ -253,20 +260,16 @@ class StudentCourseDetailView(DetailView):
             context['module'] = course.modules.all()
         return context
 
-#
-# def comment_view(request, content_id):
-#     course_video = get_object_or_404(Content, id=content_id)
-#     if request.method == 'POST':
-#         comment_form = CommentForm(request.POST or None)
-#         if comment_form.is_valid():
-#             content = request.POST.get('body')
-#             comment = Comment.objects.create(course_video=course_video, commenter=request.user, body=content)
-#             comment.save()
-#             return redirect('index')
-#         else:
-#             cf = CommentForm()
-#
-#         context = {
-#             'comment_form': cf,
-#         }
-#         return render(request, 'socio / post_detail.html', context)
+
+class AddComment(LoginRequiredMixin, CreateView):
+
+    def post(self, request, *args, **kwargs):
+        comment_form = CommentForm(request.POST)
+        course = Course.objects.get(slug=self.kwargs['slug'])
+        if comment_form.is_valid():
+            comment_form = comment_form.save(commit=False)
+            comment_form.course = course
+            comment_form.commenter = self.request.user
+            comment_form.save()
+
+            return redirect('course_detail', self.kwargs['slug'])

@@ -1,3 +1,4 @@
+from crispy_forms.layout import Layout, Field
 from django import forms
 from django.forms.models import inlineformset_factory
 from .models import Course, Module, Content, Comment
@@ -28,9 +29,15 @@ class CourseEnrollForm(forms.Form):
                                     widget=forms.HiddenInput)
 
 
-class CommentForm(forms.Form):
+class CommentForm(forms.ModelForm):
     body = forms.TextInput()
 
     class Meta:
         model = Comment
         fields = ['body']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['body'].label = 'Leave a Comment'
+
+        self.fields['body'].widget.attrs = {'rows': 2}

@@ -31,5 +31,6 @@ urlpatterns = [
     path('student/courses/', views.StudentCourseListView.as_view(), name='student_course_list'),
     path('student/course/<pk>/', views.StudentCourseDetailView.as_view(), name='student_course_detail'),
     path('student/course/<pk>/<module_id>/', views.StudentCourseDetailView.as_view(), name='student_course_detail_module'),
+    path('add/<str:slug>/comment/', views.AddComment.as_view(), name='add comment')
 
 ]

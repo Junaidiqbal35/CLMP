@@ -130,6 +130,6 @@ class GetCheckoutSession(View):
             user_membership_data.is_premium = True
             user_membership_data.save()
 
-            return HttpResponse('success')
+            return redirect('courses')
         except Exception as e:
             return HttpResponse(str(e))
