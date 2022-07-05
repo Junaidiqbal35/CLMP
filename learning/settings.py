@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +44,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'subscriptions',
     'djstripe',
+    'django_filters',
+
 
 ]
 AUTH_USER_MODEL = 'accounts.User'
@@ -140,6 +143,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+#STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # Media Folder settings
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

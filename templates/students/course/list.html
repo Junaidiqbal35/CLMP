@@ -5,6 +5,7 @@
         <div class="container-fluid">
         <div class="row">
           {% for course in object_list %}
+
             <div class="col-md-4">
                 <div class="wrapper">
 
@@ -13,20 +14,34 @@
                          <p> Instructor: {{ course.owner.first_name }} </p>
                            <h2>Modules</h2>
                            {% for m in course.modules.all %}
+                               {% for content in m.contents.all %}
                                <ul>
-                                 <a href="{% url "module_detail" m.id %}">
+                                 <a href="{% url "module_detail" m.id content.id %}">
 
-                                <li> {{ m }} </li></a>
+                                <li> {{ m }} -> {{ content.title}} </li></a>
                                </ul>
+                              {% endfor %}
 
                             {% endfor %}
 
-                        <p><a href="{% url "student_course_detail" course.id %}">
+
+                     {% with item=course.user_course_progress.all.last %}
+                       <div class="progress">
+
+
+                                   <div class="progress-bar bg-success" role="progressbar" style="width: {{ item.percentage_value }}%" aria-valuenow="{{ item.percentage_value }}" aria-valuemin="0" aria-valuemax="{{ item.percentage_value }}"> {{item.percentage_value}} </div>
+
+                            </div>
+              {% endwith %}
+
+
+                        <p><a href="{% url "course_detail" course.slug %}">
                             Access contents </a></p>
 
                     </div>
                 </div>
             </div>
+
 
             {% empty %}
                 <p>
@@ -43,6 +58,7 @@
 
         </div>
     </div>
+
 
 
 {% endblock %}

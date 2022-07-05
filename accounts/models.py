@@ -5,7 +5,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from common.timestamp import BaseTimestampModel
-from django.utils.translation import  gettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
 # Custom User Manager for email field login
@@ -64,6 +64,8 @@ class Teacher(BaseTimestampModel):
     user = models.OneToOneField(User, related_name='teacher_user', on_delete=models.CASCADE, primary_key=True)
     city = models.CharField(verbose_name=_('City'), max_length=255)
     qualification = models.CharField(max_length=255, help_text='your qualification?')
+    upload_cv = models.FileField(upload_to='upload/cv/', null=True, blank=True)
+
 
     class Meta:
         verbose_name = _('Teacher')

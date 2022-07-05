@@ -1,9 +1,11 @@
+from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 # Create your models here.
 from django.db import models
 from django.conf import settings
+from django.db.models import Sum
 
 from courses.fields import OrderField
 
@@ -11,6 +13,7 @@ from courses.fields import OrderField
 class Category(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
+    category_image = models.URLField(blank=True)
 
     class Meta:
         ordering = ['title']
@@ -40,6 +43,7 @@ class Course(models.Model):
                                       related_name='courses_joined',
                                       blank=True)
     created = models.DateTimeField(auto_now_add=True)
+    course_image = models.URLField(blank=True)
 
     class Meta:
         ordering = ['-created']
@@ -87,9 +91,29 @@ class Comment(models.Model):
                                related_name='course_comments')
     commenter = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user_comments', on_delete=models.CASCADE)
     body = models.TextField(max_length=250)
+    rating = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
 
     class Meta:
         ordering = ('-created',)
+
+
+class CourseProgress(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_content_progress')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='user_course_progress')
+    content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name='content_progress')
+    visited = models.BooleanField(default=False)
+    percentage_value = models.IntegerField(default=0)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.user.first_name} course  {self.course} progress {self.percentage_value}'
+
+    # @property
+    # def set_progress_value(self):
+    #     progress_value = CourseProgress.objects.get(course=self.course).aggregate(
+    #         progress_value=Sum('percentage_value'))
+    #     self.percentage_value = progress_value

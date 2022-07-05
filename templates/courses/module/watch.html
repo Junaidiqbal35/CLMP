@@ -1,0 +1,82 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link rel="stylesheet" href="/static/css/watch.css">
+    <title>Courses Portfolio</title>
+    <style>
+        nav{
+            height: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'common/second_navbar.html' %}
+    <div class="row mt-4">
+        <div class="col-md-2 mx-4">
+            <a href="">CoursesPortfolio</a>
+        </div>
+       <div class="col-md-6 mt-2">
+        <h5 id="head">{{ content.module }}</h5>
+       </div>
+    </div>
+
+    <div class="container-fluid">
+            <div class="col-md-8">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 mb-3">
+                            <h5 style="font-weight: 600;">{{ content.title }}</h5>
+                        </div>
+                    </div>
+                </div>
+                 <div class="row">
+                        <div class="col-sm-12">
+                            <div class="logo">
+                                  <video width="100%" height="450" controls>
+                                    <source src="{{ content.video.url }}" type="video/mp4">
+
+                                </video>
+
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="width:100%;">
+                    <div class="row ">
+                        <div class="col-sm-6 gg">
+                            <button class="btn mt-3">Learn</button>
+                        </div>
+
+                        <div class="col-sm-6 space">
+                            {% if not video_visited %}
+                                <form action="{% url 'student-progress' content.id %}" method="post">
+                                {% csrf_token %}
+                                    <p>   </p>
+                                      <button type="submit" class="mt-3 btn-lg">Got it!</button>
+                                </form>
+                            {% else %}
+                                <button type="submit" class="btn btn-success mt-3">Visited!</button>
+                            {% endif %}
+
+
+                        </div>
+                    </div>
+            </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

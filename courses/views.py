@@ -1,13 +1,17 @@
+from math import floor
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.db.models import Count
+from django.db.models import Count, Q, Sum
 from django.forms import modelform_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView
 from django.views.generic.base import TemplateResponseMixin, View
 from django.apps import apps
+from django_filters.views import FilterView
+
 from .forms import ModuleFormSet, CourseEnrollForm, CommentForm
-from .models import Course, Content, Module, Category, Comment
+from .models import Course, Content, Module, Category, Comment, CourseProgress
 from django.urls import reverse_lazy, reverse
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, \
@@ -16,13 +20,15 @@ from django.views.generic.edit import CreateView, UpdateView, \
 
 class CourseListView(TemplateResponseMixin, View):
     model = Course
-    template_name = 'courses/course/list.html'
+    template_name = 'courses.html'
 
     def get(self, request, category=None):
         categories = Category.objects.annotate(
             total_courses=Count('courses'))
         courses = Course.objects.annotate(
             total_modules=Count('modules'))
+        # c.course_comments.aggregate(Avg('rating'))
+
         if category:
             category = get_object_or_404(Category, slug=category)
             courses = courses.filter(category=category)
@@ -38,7 +44,7 @@ class CourseListView(TemplateResponseMixin, View):
 
 class CourseDetailView(DetailView):
     model = Course
-    template_name = 'courses/course/detail.html'
+    template_name = 'courses/course/course_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -101,10 +107,10 @@ class CourseDeleteView(OwnerCourseMixin, DeleteView):
     permission_required = 'courses.delete_course'
 
 
-class ModuleDetailView(DetailView):
-    context_object_name = 'module'
-    model = Module
-    template_name = 'courses/module/module_detail.html'
+class ModuleDetailView(ListView):
+    context_object_name = 'content'
+    model = Content
+    template_name = 'courses/module/watch.html'
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -112,6 +118,18 @@ class ModuleDetailView(DetailView):
     #     context['comment_form'] = CommentForm()
     #
     #     return context
+    def get_queryset(self):
+        module = get_object_or_404(Module, id=self.kwargs['module_id'])
+        print(module)
+        return get_object_or_404(Content, module=module, id=self.kwargs['content_id'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['video_visited'] = CourseProgress.objects.filter(user=self.request.user,
+                                                                 content=self.get_queryset()).exists()
+        print(context['video_visited'])
+
+        return context
 
 
 class CourseModuleUpdateView(TemplateResponseMixin, View):
@@ -236,7 +254,20 @@ class StudentCourseListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.filter(students__in=[self.request.user])
+        return  qs.filter(students__in=[self.request.user])
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        progress_value = []
+
+        for course in self.get_queryset():
+
+            progress_value.append(CourseProgress.objects.filter(course=course, user=self.request.user). \
+                                  aggregate(progress_value=Sum('percentage_value')))
+        context['progress_value'] = progress_value
+        return context
+    # course.user_course_progress.filter(user=user).aggregate(course_progress=Sum('percentage_value'))
 
 
 class StudentCourseDetailView(DetailView):
@@ -273,3 +304,44 @@ class AddComment(LoginRequiredMixin, CreateView):
             comment_form.save()
 
             return redirect('course_detail', self.kwargs['slug'])
+
+
+class SearchCourseListView(FilterView):
+    model = Course
+    context_object_name = 'courses'
+    template_name = 'courses.html'
+    paginate_by = '50'
+
+    queryset = Course.objects.all()
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset()
+        query = self.request.GET.get('search')
+        print(query)
+        if query:
+            qs = Course.objects.filter(Q(title__icontains=query) | Q(owner__first_name__icontains=query))
+            print(qs)
+
+            return qs
+        return qs
+
+
+# student course progrss
+class StudentCourseProgress(LoginRequiredMixin, TemplateResponseMixin, View):
+
+    def post(self, request, content_id):
+        content = get_object_or_404(Content, id=content_id)
+
+        course = content.module.course
+        print(course)
+        course_progress = CourseProgress.objects.create(user=request.user, course=course, content=content, visited=True)
+
+        total_content_video = Content.objects.filter(module__course=content.module.course).aggregate(
+            total_video=Count('video'))
+        user_course_progress = CourseProgress.objects.filter(course=course, user=request.user).aggregate(
+            total_view=Count('visited'))
+
+        progress_value = floor((user_course_progress['total_view'] / total_content_video['total_video']) * 100)
+        course_progress.percentage_value = progress_value
+        course_progress.save()
+        return redirect('module_detail', content.module.id, content.id)

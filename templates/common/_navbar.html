@@ -148,15 +148,20 @@
                             </li>
 
                         {% elif request.user.is_student %}
+                            {% if request.user.is_premium %}
+                                 <lI>      <a href="#">Upgraded</a> </lI>
+                            {% else %}
+                                 <lI>      <a href={% url 'plans' %}>Upgrade</a> </lI>
+                            {% endif %}
 
-                            <lI>      <a href={% url 'plans' %}>Upgrade</a> </lI>
+
 
 
                         {% else %}
                                <li><a href="{% url 'home' %}" class="active active-first">home</a></li>
                             <lI>      <a href={% url 'plans' %}>Upgrade</a> </lI>
                             <li>    <a href="{% url 'account_login' %}">Sign in</a> </li>
-                            <li>     <a href="{% url 'student-registration' %}"> Become A Teacher</a></li>
+                            <li>     <a href="{% url 'teacher-registration' %}"> Become A Teacher</a></li>
                               <li>    <a href="{% url 'student-registration' %}"> Student Sign Up</a></li>
 
 

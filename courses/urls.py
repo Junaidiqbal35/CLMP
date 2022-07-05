@@ -18,11 +18,14 @@ urlpatterns = [
          name='module_content_update'),
 
 
+    path('courses/<slug:category>/', CourseListView.as_view(), name='courses'),
     path('courses/', CourseListView.as_view(), name='courses'),
     path('', TemplateView.as_view(template_name="index.html"), name='home'),
     path('category/<slug:category>/', CourseListView.as_view(),  name='course_list_category'),
     path('<slug:slug>/', views.CourseDetailView.as_view(), name='course_detail'),
-    path('module/detail/<int:pk>/',  ModuleDetailView.as_view(), name='module_detail'),
+    #path('module-detail/<int:module_id>/', ModuleDetailView.as_view(), name='module_detail'),
+    path('module/detail/<int:module_id>/<int:content_id>/',  ModuleDetailView.as_view(), name='module_detail'),
+
 
     path('module/<int:module_id>/', views.ModuleContentListView.as_view(), name='module_content_list'),
     path('content/<int:id>/delete/', views.ContentDeleteView.as_view(), name='module_content_delete'),
@@ -30,7 +33,10 @@ urlpatterns = [
 
     path('student/courses/', views.StudentCourseListView.as_view(), name='student_course_list'),
     path('student/course/<pk>/', views.StudentCourseDetailView.as_view(), name='student_course_detail'),
-    path('student/course/<pk>/<module_id>/', views.StudentCourseDetailView.as_view(), name='student_course_detail_module'),
-    path('add/<str:slug>/comment/', views.AddComment.as_view(), name='add comment')
+    path('student/course/<pk>/<module_id>/', views.StudentCourseDetailView.as_view(),
+         name='student_course_detail_module'),
+    path('add/<str:slug>/comment/', views.AddComment.as_view(), name='add comment'),
+    path('search/course/', views.SearchCourseListView.as_view(), name='search-courses'),
+    path('student/progress/content/<int:content_id>/', views.StudentCourseProgress.as_view(), name='student-progress')
 
 ]
