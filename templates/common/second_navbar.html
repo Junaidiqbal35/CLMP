@@ -1,22 +1,105 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="{% url 'courses' %}">CLMP</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    {% if request.user.is_student %}
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'courses' %}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <a class="nav-link" href="{% url 'profile' request.user.id %}">Profile</a>
+        </li>
+         <li class="nav-item">
+          <a class="nav-link" href="{% url 'student_course_list' %}">Your Courses</a>
+        </li>
+          <li class="nav-item">
+
+           <form method="post" action="{% url 'account_logout' %}">
+                  {% csrf_token %}
+                  {% if redirect_field_value %}
+                  <input class="dropdown-item" type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                  {% endif %}
+
+                  <button class="nav-link" type="submit" style="border: none; background-color: transparent; ">  <i class="bx bx-conversation"></i>
+            <span class="mx-2">Logout</span>  </button>
+
+            </form>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="#"> Hello, {{ request.user.get_full_name }}</a>
+        </li>
+
+      </ul>
+
+    </div>
+       {% elif request.user.is_teacher %}
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'courses' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'profile' request.user.id %}">Profile</a>
+        </li>
+         <li class="nav-item">
+          <a class="nav-link" href="{% url 'manage_course_list' %}">Your Courses</a>
+        </li>
+      <li class="nav-item">
+
+           <form method="post" action="{% url 'account_logout' %}">
+                  {% csrf_token %}
+                  {% if redirect_field_value %}
+                  <input class="dropdown-item" type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                  {% endif %}
+
+                  <button class="nav-link" type="submit" style="border: none; background-color: transparent; ">  <i class="bx bx-conversation"></i>
+            <span class="mx-2">Logout</span>  </button>
+
+            </form>
+      </li>
+
+         <li class="nav-item">
+          <a class="nav-link" href="#"> Hello, {{ request.user.get_full_name }}</a>
+        </li>
+
+      </ul>
+
+    </div>
+     {% else %}
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav  mx-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'courses' %}">Home</a>
+        </li>
+
+         <li class="nav-item">
+           <a class="nav-link" href={% url 'plans' %}>Upgrade</a>
+         </lI>
+         <li class="nav-item">
+           <a class="nav-link" href="{% url 'teacher-registration' %}"> Become A Teacher</a>
+         </lI>
+          <li class="nav-item">
+           <a class="nav-link" href="{% url 'student-registration' %}"> Student Sign Up</a>
+         </lI>
+            <li class="nav-item">
+          <a class="nav-link" href="{% url 'account_login' %}">Sign in</a>
         </li>
       </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
+        </div>
+
+
+
+
+
+
+
+
+
+      {% endif %}
   </div>
 </nav>

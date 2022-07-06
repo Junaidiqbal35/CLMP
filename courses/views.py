@@ -53,7 +53,10 @@ class CourseDetailView(DetailView):
             initial={'course': self.object})
         context['comment_form'] = CommentForm()
         context['comments'] = self.object.course_comments.all()
+
         try:
+            progress_value = CourseProgress.objects.filter(course=self.object, user=self.request.user).last()
+            context['progress_value'] = progress_value.percentage_value
 
             if Course.objects.filter(students__in=[self.request.user], slug=self.object.slug).exists():
                 context['is_enrolled'] = True
@@ -244,8 +247,8 @@ class StudentEnrollCourseView(LoginRequiredMixin, FormView):
         print(form)
 
     def get_success_url(self):
-        return reverse_lazy('student_course_detail',
-                            args=[self.course.id])
+        return reverse_lazy('course_detail',
+                            args=[self.course.slug])
 
 
 class StudentCourseListView(LoginRequiredMixin, ListView):
@@ -254,15 +257,13 @@ class StudentCourseListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return  qs.filter(students__in=[self.request.user])
-
+        return qs.filter(students__in=[self.request.user])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         progress_value = []
 
         for course in self.get_queryset():
-
             progress_value.append(CourseProgress.objects.filter(course=course, user=self.request.user). \
                                   aggregate(progress_value=Sum('percentage_value')))
         context['progress_value'] = progress_value
