@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+ {% block title %}
+       <title>Profile</title>
+      {% endblock title %}
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
+{% endblock extrahead %}
+
+{% block content %}
+   <div class="p-1 my-container active-cont">
+    <div class="col-sm p-3 min-vh-100" style="background-color: #0B1828;">
+
+<div class="container rounded mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
+                    width="150px"
+                    src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
+                    class="font-weight-bold">{{ profile.get_full_name }}</span><span
+                    class="text-black-50">{{ profile.email }}</span><span> </span></div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile Settings</h4>
+                </div>
+                <form method="post" enctype="multipart/form-data">
+                <div class="row mt-2">
+                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control"
+                           value="{{ profile.first_name }}" disabled></div>
+                    <div class="col-md-6"><label class="labels">Last Name</label><input type="text"
+                            class="form-control" value="{{ profile.last_name }}" disabled></div>
+                </div>
+                <div class="row mt-3">
+
+                    <div class="col-md-12"><label class="labels">Email ID</label><input type="text"
+                            class="form-control disabled"  disabled  value="{{ profile.email }}" disabled></div>
+
+                </div>
+                {% if request.user.is_teacher %}
+                   <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">City</label><input type="text"
+                            class="form-control"  value="{{ profile.teacher_user.city }}" disabled></div>
+                    <div class="col-md-12"><label class="labels">Qualification</label><input type="text"
+                            class="form-control"  value="{{ profile.teacher_user.qualification }}" disabled></div>
+
+                </div>
+                   <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Description</label><input type="text"
+                            class="form-control"  value="{{ profile.teacher_user.description }}" disabled></div>
+                    </div>
+                    <div class="mt-5 text-center"><a href ="{% url 'teacher-update-profile' request.user.id %}" class="btn btn-primary profile-button" >
+                       Click to Update Profile</a></div>
+
+               {% else %}
+                     <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">City</label><input type="text"
+                            class="form-control"  value="{{ profile.student_user.city }}" disabled></div>
+                    <div class="col-md-12"><label class="labels">Qualification</label><input type="text"
+                            class="form-control"  value="{{ profile.student_user.qualification }}" disabled></div>
+
+                </div>
+                   <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Description</label><input type="text"
+                            class="form-control"  value="{{ profile.student_user.description }}" disabled></div>
+                    <div class="mt-5 text-center"><a href ="{% url 'student-update-profile' request.user.id %}" class="btn btn-primary profile-button" >
+                       Click to Update Profile</a></div>
+                </div>
+
+
+               {% endif %}
+
+
+{#                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save#}
+{#                        Profile</button></div>#}
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+    </div>
+   </div>
+
+{% endblock content %}

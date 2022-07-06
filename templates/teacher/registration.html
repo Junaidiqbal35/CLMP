@@ -3,136 +3,152 @@
 {% load crispy_forms_tags %}
 {% load crispy_forms_field %}
 {% block extrahead %}
-<style>
+    <style>
 
-    .wrapper {
-        max-width: 400px;
-        min-height: 500px;
-        margin: 40px auto;
-        padding: 40px 30px 30px 30px;
-        background-color: #ecf0f3;
-        border-radius: 15px;
-        box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
-    }
-
-
+        .wrapper {
+            max-width: 600px;
+            min-height: 500px;
+            margin: 40px auto;
+            padding: 40px 30px 30px 30px;
+            background-color: #ecf0f3;
+            border-radius: 15px;
+            box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+        }
 
 
+        .wrapper .name {
+            font-weight: 600;
+            font-size: 1.4rem;
+            letter-spacing: 1.3px;
+            padding-left: 10px;
+            color: #555;
+        }
 
-    .wrapper .name {
-        font-weight: 600;
-        font-size: 1.4rem;
-        letter-spacing: 1.3px;
-        padding-left: 10px;
-        color: #555;
-    }
+        input[type='text'] {
+            width: 100%;
+            display: block;
+            border: none;
+            outline: none;
+            background: none;
+            font-size: 1.2rem;
+            color: #666;
+            padding: 10px 15px 10px 10px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
 
-    input[type='text'] {
-        width: 100%;
-        display: block;
-        border: none;
-        outline: none;
-        background: none;
-        font-size: 1.2rem;
-        color: #666;
-        padding: 10px 15px 10px 10px;
-        margin-bottom: 20px;
-        border-radius: 20px;
-        box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
+        }
 
-    }
         input[type='email'] {
-        width: 100%;
-        display: block;
-        border: none;
-        outline: none;
-        background: none;
-        font-size: 1.2rem;
-        color: #666;
-        padding: 10px 15px 10px 10px;
-        /* border: 1px solid red; */
-        margin-bottom: 20px;
-        border-radius: 20px;
-        box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
-    }
-     input[type='password'] {
-        width: 100%;
-        display: block;
-        border: none;
-        outline: none;
-        background: none;
-        font-size: 1.2rem;
-        color: #666;
+            width: 100%;
+            display: block;
+            border: none;
+            outline: none;
+            background: none;
+            font-size: 1.2rem;
+            color: #666;
+            padding: 10px 15px 10px 10px;
+            /* border: 1px solid red; */
+            margin-bottom: 20px;
+            border-radius: 20px;
+            box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
+        }
+
+        input[type='password'] {
+            width: 100%;
+            display: block;
+            border: none;
+            outline: none;
+            background: none;
+            font-size: 1.2rem;
+            color: #666;
         {#padding: 10px 15px 10px 10px;#}
-        /* border: 1px solid red; */
-        padding: 10px 15px 10px 10px;
-        margin-bottom: 20px;
-        border-radius: 20px;
-        box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
-    }
+            /* border: 1px solid red; */
+            padding: 10px 15px 10px 10px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
+        }
+
+        textarea {
+            width: 100%;
+            display: block;
+            border: none;
+            outline: none;
+            background: none;
+            font-size: 1.2rem;
+            color: #666;
+            padding: 10px 15px 10px 10px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff !important;
+        }
 
 
+        .wrapper .form-field .fas {
+            color: #555;
+        }
 
+        .wrapper .btn {
 
-    .wrapper .form-field .fas {
-        color: #555;
-    }
+            width: 100%;
+            height: 40px;
+            background-color: #550077;
+            color: #fff;
+            border-radius: 25px;
+            box-shadow: 3px 3px 3px #b1b1b1;
 
-    .wrapper .btn {
+            letter-spacing: 1.3px;
+        }
 
-        width: 100%;
-        height: 40px;
-        background-color: #550077;
-        color: #fff;
-        border-radius: 25px;
-        box-shadow: 3px 3px 3px #b1b1b1;
+        .btn {
+            box-shadow: none;
+            width: 70%;
+            height: 40px;
+            background-color: #550077;
+            color: #fff;
+            border-radius: 25px;
+            box-shadow: 3px 3px 3px #b1b1b1;
+            letter-spacing: 1.3px;
+        }
 
-        letter-spacing: 1.3px;
-    }
-    .btn{
-        box-shadow: none;
-        width: 70%;
-        height: 40px;
-        background-color: #550077;
-        color: #fff;
-        border-radius: 25px;
-        box-shadow: 3px 3px 3px #b1b1b1;
-        letter-spacing: 1.3px;
-    }
-    .btn:hover {
-        background-color: #9d36c5;
-        color: #fff;
-    }
-    .wrapper .btn:hover {
-        background-color: #9d36c5;
-    }
+        .btn:hover {
+            background-color: #9d36c5;
+            color: #fff;
+        }
 
-    .wrapper a {
-        text-decoration: none;
-        font-size: 0.8rem;
-        color: #550077;
-    }
+        .wrapper .btn:hover {
+            background-color: #9d36c5;
+        }
 
-    .wrapper a:hover {
-        color: #9d36c5;
-    }
-    .center{
-        padding-left: 10%;
-        padding-top: 10%;
-    }
-    .center button{
-        background-color: #550077;
+        .wrapper a {
+            text-decoration: none;
+            font-size: 0.8rem;
+            color: #550077;
+        }
 
-        width: 70%;
-        height: 40px;
+        .wrapper a:hover {
+            color: #9d36c5;
+        }
 
-        color: #fff;
-        border-radius: 25px;
-        box-shadow: 3px 3px 3px #b1b1b1;
-        letter-spacing: 1.3px;
-    }
+        .center {
+            padding-left: 10%;
+            padding-top: 10%;
+        }
 
-</style>
+        .center button {
+            background-color: #550077;
+
+            width: 70%;
+            height: 40px;
+
+            color: #fff;
+            border-radius: 25px;
+            box-shadow: 3px 3px 3px #b1b1b1;
+            letter-spacing: 1.3px;
+        }
+
+    </style>
 
 
 {% endblock extrahead %}
@@ -147,59 +163,38 @@
 
         <div class="row mt-5">
             <div class="col-md-6 center">
-               <h1>Upload your Content  </h1>
-               <h3 class="mt-5">that help the student community<h3>
-               <h3>for future for work.</h3>
-               <button class="btn mt-5">Start Uploading your Course</button>
-               <button class="btn mt-3 buy">Buy Subscriptions for more!</button>
+                <h1> Why you should teach on CLMP</h1>
+                <blockquote>Teach any course to millions of learners while building your personal brand. Join us on our
+                    mission to spread data fluency around the globe.
+                </blockquote>
+
+
+                <h1>Upload your Content </h1>
+                <h3 class="mt-5">that help the student community</h3>
+
+                        <h3>for future for work.</h3>
+
+                        <a href="{% url 'account_login' %} " class="btn mt-3 buy" style="background-color: purple; color: white;"> My Content </a>
+
             </div>
+
             <div class="col-md-6">
                 <div class="wrapper">
                     <div class="text-center mt-4 name">
                         Create Your Free Account
                     </div>
-                    <form class="p-3 mt-3" method="POST" action="{% url 'teacher-registration' %}">
-                         {{form|crispy}}
-                         {{work_form|crispy}}
+                    <form class="p-3 mt-3" method="POST" action="{% url 'teacher-registration' %}" enctype="multipart/form-data">
+                         {{ form|crispy }}
+                         {{ work_form|crispy }}
                         {% csrf_token %}
 
-{#                        <div class="form-field d-flex align-items-center">#}
-{#                            <span class="fa fa-user"></span>#}
-{#                            <input type="text" name="userName" id="userName" placeholder="Firstname">#}
-{#                             {% crispy_field form.first_name 'class' 'custom-control-input' 'placeholder' 'First Name' %}#}
-{#                        </div>#}
-{#                        <div class="form-field d-flex align-items-center">#}
-{#                            <span class="fa fa-user"></span>#}
-{#                            <input type="text" name="userName" id="userName" placeholder="Lastname">#}
-{#                             {% crispy_field form.last_name 'class' 'custom-control-input' 'placeholder' 'Last Name' %}#}
-{#                        </div>#}
-{#                        <div class="form-field d-flex align-items-center">#}
-{#                            <span class="far fa-user"></span>#}
-{#                            <input type="email" name="userName" id="userName" placeholder="Enter your email">#}
-{#                             {% crispy_field form.email 'class' 'custom-control-input' 'placeholder' 'Email' %}#}
-{#                        </div>#}
-{#                        <div class="form-field d-flex align-items-center">#}
-{#                            <span class="fas fa-key"></span>#}
-{#                             {% crispy_field form.password 'class' 'custom-control-input' 'placeholder' 'Password'%}#}
-{#                            <input type="password" name="password" id="pwd" placeholder="Password">#}
-{#                        </div>#}
-{##}
-{#                        <div class="form-field d-flex align-items-center">#}
-{#                            <span class="fas fa-key"></span>#}
-{#                             {% crispy_field work_form.city 'class' 'custom-control-input' 'placeholder' 'City' %}#}
-{##}
-{#                        </div>#}
-{##}
-{#                      <div class="form-field d-flex align-items-center">#}
-{#                            <span class="fas fa-key"></span>#}
-{#                             {% crispy_field work_form.qualification 'class' 'custom-control-input' 'placeholder' 'Qualification' %}#}
-{##}
-{#                        </div>#}
+
 
                         <button  type="submit" class="btn mt-3">Signup</button>
                     </form>
                     <div class="text-center fs-6">
-                        <a href="{% url 'account_reset_password' %}">Forget password?</a> or <a href="{% url 'account_login' %}">Log in</a>
+                        <a href="{% url 'account_reset_password' %}">Forget password?</a> or <a
+                            href="{% url 'account_login' %}">Log in</a>
                     </div>
                 </div>
             </div>

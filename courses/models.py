@@ -5,7 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 # Create your models here.
 from django.db import models
 from django.conf import settings
-from django.db.models import Sum
+from django.db.models import Sum, Avg
 
 from courses.fields import OrderField
 
@@ -50,6 +50,10 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def get_avg_rating(self):
+        return self.course_comments.aggregate(avg_rating=Avg('rating'))
 
 
 class Module(models.Model):
@@ -98,6 +102,10 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ('-created',)
+
+    # @property
+    # def get_avg_rating(self):
+    #     return Comment.objects.filter(course=self.course).annotate(Avg'rating')
 
 
 class CourseProgress(models.Model):

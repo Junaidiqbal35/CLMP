@@ -43,7 +43,7 @@
             <span class="mx-2">Home</span>
           </a>
 
-          <a href="#" class="nav-link">
+          <a href="{% url 'profile' request.user.id %}" class="nav-link">
             <i class="bx bx-user-check"></i>
             <span class="mx-2">Profile</span>
           </a>
@@ -91,7 +91,7 @@
             <span class="mx-2">Your Courses</span>
 
           </a>
-          <a href="#" class="nav-link">
+          <a href="{% url 'profile' request.user.id %}" class="nav-link">
             <i class="bx bx-user-check"></i>
             <span class="mx-2">Profile</span>
           </a>

@@ -49,6 +49,7 @@ class User(AbstractUser):
 
 class Student(BaseTimestampModel):
     user = models.OneToOneField(User, related_name='student_user', on_delete=models.CASCADE, primary_key=True)
+    description = models.TextField(max_length=1000)
     qualification = models.CharField(max_length=255, help_text='your qualification?')
     city = models.CharField(verbose_name=_('City'), max_length=255)
 
@@ -63,9 +64,9 @@ class Student(BaseTimestampModel):
 class Teacher(BaseTimestampModel):
     user = models.OneToOneField(User, related_name='teacher_user', on_delete=models.CASCADE, primary_key=True)
     city = models.CharField(verbose_name=_('City'), max_length=255)
+    description = models.TextField(max_length=1000)
     qualification = models.CharField(max_length=255, help_text='your qualification?')
-    upload_cv = models.FileField(upload_to='upload/cv/', null=True, blank=True)
-
+    upload_cv = models.FileField(upload_to='upload/cv/')
 
     class Meta:
         verbose_name = _('Teacher')
