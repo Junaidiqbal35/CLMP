@@ -1,3 +1,5 @@
+from allauth.account import app_settings
+from allauth.account.utils import complete_signup
 from allauth.account.views import SignupView
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -37,7 +39,7 @@ class StudentAddView(SignupView):
             student = work_form.save(commit=False)
             student.user = user
             student.save()
-            # complete_signup(request, user, app_settings.EMAIL_VERIFICATION, "/")
+            complete_signup(request, user, app_settings.EMAIL_VERIFICATION, "/")
 
             return redirect('account_login')
         return render(request, self.template_name, {'form': form, 'work_form': work_form})
@@ -69,7 +71,7 @@ class TeacherAddView(SignupView):
             # user = CustomUser.objects.get(email=user.email)
             teacher = work_form.save(commit=False)
             teacher.user = user
-            # complete_signup(request, user, app_settings.EMAIL_VERIFICATION, "/")
+            complete_signup(request, user, app_settings.EMAIL_VERIFICATION, "/")
 
             teacher.save()
 
@@ -84,6 +86,7 @@ class UserProfile(LoginRequiredMixin, DetailView):
     slug_field = 'id'
 
     model = User
+
 
 
 class TeacherProfileUpdateView(UpdateView):

@@ -37,6 +37,7 @@ urlpatterns = [
          name='student_course_detail_module'),
     path('add/<str:slug>/comment/', views.AddComment.as_view(), name='add comment'),
     path('search/course/', views.SearchCourseListView.as_view(), name='search-courses'),
-    path('student/progress/content/<int:content_id>/', views.StudentCourseProgress.as_view(), name='student-progress')
+    path('student/progress/content/<int:content_id>/', views.StudentCourseProgress.as_view(), name='student-progress'),
+    path('course/<slug:slug>/certifaction/', views.CertificationRequest.as_view(), name='course-certificate'),
 
 ]

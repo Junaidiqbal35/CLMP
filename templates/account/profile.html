@@ -82,11 +82,13 @@
 
             </div>
         </div>
+        {% if request.user.is_student %}
 
         <h2> Membership Detail</h2>
             <p>Membership Plan:  {{profile.membership_plan.membership.membership_type}}  </p>
             <p>Membership Created At: {{profile.membership_plan.created_at }} </p>
-            <p>Membership Billing Date: {{profile.membership_plan.user_membership_subscription.get_next_billing_date }} </p>
+        {% else %}
+        {% endif %}
 
 
     </div>

@@ -1,17 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
 html,
-body {
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 15px;
-    line-height: 1.5;
-    box-sizing: border-box;
-    margin: 0;
-    top: 0;
-    left: 0;
-    overflow-x: hidden;
-    background-color: #ecf0f3;
-}
+
 
 .logo {
     width: 100%;
@@ -46,11 +36,6 @@ body {
     background-color: #9d36c5;
 }
 
- a {
-    text-decoration: none;
-    font-size: 2rem;
-    color: #550077;
-}
 
 a:hover {
     color: #9d36c5;

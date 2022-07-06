@@ -53,14 +53,26 @@
                            <a href="{% url "student-registration" %}" class="btn1 btn btn-outline-secondary btn-lg border"> <i
                                         class="bi-bookmark mx-2"></i> Enroll Now </a>
                            {% endif %}
+                            <br>
+                            <br>
+                            <div class="col-sm-4">
+                            {% if progress_value >= 100%}
+
+                                <a href="{% url "course-certificate" object.slug %}" class="btn1 btn btn-outline-secondary btn-lg border"> <i
+                                        class="bi-bookmark mt-40"></i>  Send Certification Request </a>
+
+                            {% else %}
+                            {% endif %}
+                            </div>
 
                         </div>
+
                         <div class="row">
+{#                            <div class="col-sm-2">#}
+{#                                <p> <i class="bi-clock mx-1" style="color: rgb(255, 255, 255)"></i>4 hours</p>#}
+{#                            </div>#}
                             <div class="col-sm-2">
-                                <p> <i class="bi-clock mx-1" style="color: rgb(255, 255, 255)"></i>4 hours</p>
-                            </div>
-                            <div class="col-sm-2">
-                                <p><i class="bi-play mx-1" style="color: rgb(255, 255, 255)"></i>{{ course.module.count }}</p>
+                                <p><i class="bi-play mx-1" style="color: rgb(255, 255, 255)"></i>Total Module:{{ course.modules.count }}</p>
                             </div>
 
                             <div class="col-sm-2">
@@ -80,9 +92,7 @@
 
                 </p>
                  <div class="progress">
-
-
-                                   <div class="progress-bar bg-success" role="progressbar" style="width: {{ progress_value }}%" aria-valuenow="{{ progress_value }}" aria-valuemin="0" aria-valuemax="{{ progress_value}}"> {{progress_value}} Complete</div>
+                       <div class="progress-bar bg-success" role="progressbar" style="width: {{ progress_value }}%" aria-valuenow="{{ progress_value }}" aria-valuemin="0" aria-valuemax="{{ progress_value}}"> {{progress_value}} </div>
 
                             </div>
                 <div class="container my-5">
@@ -162,13 +172,8 @@
                                      </div>
                                         <div class="action d-flex justify-content-between mt-2 align-items-center">
                                             <div class="icons align-items-center">
-                                                <i class="bi bi-star-fill {% if comment.rating >= 1 %} text-warning" {% endif %}></i>
-                                                <i class="bi bi-star-fill  {% if comment.rating >= 2 %} text-warning" {% endif %}></i>
-                                                   <i class="bi bi-star-fill  {% if comment.rating >= 3 %} text-warning" {% endif %}></i>
-                                               <i class="bi bi-star-fill  {% if comment.rating >= 4 %} text-warning" {% endif %}></i>
-                                               <i class="bi bi-star-fill  {% if comment.rating >= 5 %} text-warning" {% endif %}></i>
-                              
-                                                <i class="bi bi-check-circle check-icon"></i>
+                                                 <fieldset class="starability-result mx-auto" data-rating="{{comment.rating}}">
+                                                     Rated: {{comment.rating}} stars </fieldset>
                                             </div>
                                         </div>
                                     </div>

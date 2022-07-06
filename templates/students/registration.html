@@ -8,7 +8,7 @@
 
 
     .wrapper {
-        max-width: 400px;
+        max-width: 600px;
         min-height: 500px;
         margin: 40px auto;
         padding: 40px 30px 30px 30px;
@@ -16,6 +16,19 @@
         border-radius: 15px;
         box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
     }
+            textarea {
+            width: 100%;
+            display: block;
+            border: none;
+            outline: none;
+            background: none;
+            font-size: 1.2rem;
+            color: #666;
+            padding: 10px 15px 10px 10px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff !important;
+        }
 
 
 
@@ -151,11 +164,13 @@
 
         <div class="row">
             <div class="col-md-6 center">
-               <h1>Build Data Skills Online </h1>
-               <h3 class="mt-5">Data Drives Everything. Get the skills</h3>
-               <h3>for future for work.</h3>
-               <button class="btn mt-5">Start Learning for free</button>
-               <button class="btn mt-3 buy">Buy Subscriptions for more!</button>
+               <h1>Build Skills Online </h1>
+               <h3 class="mt-5">Get the skills, that change your life.</h3>
+
+
+                <a href="{% url 'courses' %}" class='btn mt-5' style="background-color: purple; color: white;"> Start Learning for free </a>
+                <a href="{% url 'plans' %}" class='btn mt-5' style="background-color: purple; color: white;"> Buy Subscriptions for more!  </a>
+
             </div>
             <div class="col-md-6">
                 <div class="wrapper">

@@ -140,103 +140,40 @@
     <h2 id="head">Students are viewing</h2>
     <h5 class="text-center mt-3 mb-4"> What data science language would you like to start with?</h5>
     <div class="row">
-        <div class="col-sm-3">
+        {% for course in data_science_courses %}
+               <div class="col-sm-3">
             <div class="wrapper">
                 <div class="logo">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/640px-Python-logo-notext.svg.png"
                         alt="">
                 </div>
                 <div class="text-center mt-4 name">
-                    Python
+                    {{ course.title }}
                 </div>
-                <button class="btn mt-3">Learn Now ></button>
+                <p class="text-center">{{ course.owner.get_full_name }}</p>
+                <div class="action d-flex justify-content-between mt-2 align-items-center">
+                    <div class="icons align-items-center">
+                        {% with rating=course.get_avg_rating.avg_rating|floatformat:0 %}
+{#                            <span class="mx-4">{{ course.get_avg_rating.avg_rating|floatformat:0 }}</span>#}
+                            <fieldset class="starability-result mx-auto" data-rating="{{ rating }}">
+                            Rated: {{ rating }} stars
+                        </fieldset>
+
+                    {% endwith %}
+                    </div>
+                </div>
+
+                <a href="{% url "course_detail" course.slug %}" class="btn mt-2">
+                           Learn now >
+             </a>
             </div>
         </div>
-        <div class="col-sm-3">
-            <div class="wrapper">
-                <div class="logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/30/Java_programming_language_logo.svg/1200px-Java_programming_language_logo.svg.png"
-                        alt="">
-                </div>
-                <div class="text-center mt-4 name">
-                    Java
-                </div>
-                <button class="btn mt-3">Learn Now ></button>
-            </div>
+
+        {% endfor %}
+
+
         </div>
-        <div class="col-sm-3">
-            <div class="wrapper">
-                <div class="logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png"
-                        alt="">
-                </div>
-                <div class="text-center mt-4 name">
-                    React
-                </div>
-                <button class="btn mt-3">Learn Now ></button>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="wrapper">
-                <div class="logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Sql_data_base_with_logo.png" alt="">
-                </div>
-                <div class="text-center mt-4 name">
-                    SQL
-                </div>
-                <button class="btn mt-3">Learn Now ></button>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-3">
-            <div class="wrapper">
-                <div class="logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/640px-Python-logo-notext.svg.png"
-                        alt="">
-                </div>
-                <div class="text-center mt-4 name">
-                    Python
-                </div>
-                <button class="btn mt-3">Learn Now ></button>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="wrapper">
-                <div class="logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/30/Java_programming_language_logo.svg/1200px-Java_programming_language_logo.svg.png"
-                        alt="">
-                </div>
-                <div class="text-center mt-4 name">
-                    Java
-                </div>
-                <button class="btn mt-3">Learn Now ></button>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="wrapper">
-                <div class="logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png"
-                        alt="">
-                </div>
-                <div class="text-center mt-4 name">
-                    React
-                </div>
-                <button class="btn mt-3">Learn Now ></button>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="wrapper">
-                <div class="logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Sql_data_base_with_logo.png" alt="">
-                </div>
-                <div class="text-center mt-4 name">
-                    SQL
-                </div>
-                <button class="btn mt-3">Learn Now ></button>
-            </div>
-        </div>
-    </div>
+
 
 
     <div class="container-fluid mt-5 mb-5">
@@ -247,7 +184,7 @@
                 <h1>Transform your life through education</h1>
                 <h5 class="mt-3">Learners around the world are launching new careers, advancing in their fields, and
                     enriching their lives.</h5>
-                <button class="btn mt-3">Find out how</button>
+{#                <button class="btn mt-3">Find out how</button>#}
             </div>
             <div class="col-md-6 mt-5">
                 <div class="text-center mt-3">

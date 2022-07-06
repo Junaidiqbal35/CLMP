@@ -1,7 +1,9 @@
 from math import floor
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.mail import send_mail
 from django.db.models import Count, Q, Sum
 from django.forms import modelform_factory
 from django.shortcuts import get_object_or_404, redirect, render
@@ -28,6 +30,7 @@ class CourseListView(TemplateResponseMixin, View):
         courses = Course.objects.annotate(
             total_modules=Count('modules'))
         # c.course_comments.aggregate(Avg('rating'))
+        data_science_courses = Course.objects.filter(category__slug='data-science')
 
         if category:
             category = get_object_or_404(Category, slug=category)
@@ -39,7 +42,8 @@ class CourseListView(TemplateResponseMixin, View):
             pass
         return self.render_to_response({'categories': categories,
                                         'category': category,
-                                        'courses': courses})
+                                        'courses': courses,
+                                        'data_science_courses': data_science_courses})
 
 
 class CourseDetailView(DetailView):
@@ -55,11 +59,11 @@ class CourseDetailView(DetailView):
         context['comments'] = self.object.course_comments.all()
 
         try:
-            progress_value = CourseProgress.objects.filter(course=self.object, user=self.request.user).last()
-            context['progress_value'] = progress_value.percentage_value
 
             if Course.objects.filter(students__in=[self.request.user], slug=self.object.slug).exists():
                 context['is_enrolled'] = True
+                progress_value = CourseProgress.objects.filter(course=self.object, user=self.request.user).last()
+                context['progress_value'] = progress_value.percentage_value
             else:
                 context['is_enrolled'] = False
         except Exception:
@@ -346,3 +350,18 @@ class StudentCourseProgress(LoginRequiredMixin, TemplateResponseMixin, View):
         course_progress.percentage_value = progress_value
         course_progress.save()
         return redirect('module_detail', content.module.id, content.id)
+
+
+class CertificationRequest(LoginRequiredMixin, View):
+    def get(self, request, slug, *args, **kwargs):
+        course = get_object_or_404(Course, slug=slug)
+        messages.success(self.request, 'your message is send to admin, we will get back to you asap! Thanks.')
+        message = f"Hey, Request Received for Certification: \n Sender Detail:\n Full Name: {request.user.first_name} \n Sender Email: {request.user.email} \n \n Course Detail: \n  Course Author: {course.owner.first_name}  Course Name: {course.title}\n Course ID: {course.id}. Thankyou!! "
+        send_mail(
+            f'{course.title}Certification Request',
+            message,
+            'wowrehman@gmail.com',
+            ['arslannazir188@gmail.com'],
+            fail_silently=False,
+        )
+        return redirect('course_detail', course.slug)
